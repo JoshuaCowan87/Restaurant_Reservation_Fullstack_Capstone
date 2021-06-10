@@ -1,3 +1,5 @@
+
+
 /**
  * Defines the base URL for the API.
  * The default values is overridden by the `API_BASE_URL` environment variable.
@@ -7,7 +9,7 @@ import formatReservationTime from "./format-reservation-date";
 
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
-
+console.log("react_app_api", process.env.REACT_APP_API_BASE_URL)
 /**
  * Defines the default headers for these functions to work with `json-server`
  */
@@ -66,4 +68,16 @@ export async function listReservations(params, signal) {
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
+}
+
+export async function createReservation (reservationData, signal) {
+  const url =`S{API_BASE_URL}/reservations/`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify(reservationData),
+    signal,
+}
+console.log("POST REQUEST", url, options);
+return await fetchJson(url, options)
 }

@@ -23,7 +23,7 @@ function Dashboard({ date }) {
       .catch(setReservationsError);
     return () => abortController.abort();
   }
-console.log("reservations", reservations)
+
   return (
     <main>
       <h1>Dashboard</h1>
@@ -32,7 +32,7 @@ console.log("reservations", reservations)
       </div>
       <ReservationList reservations={reservations}/>
       <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
+     {/* {JSON.stringify(reservations)} */}
     </main>
   );
 }

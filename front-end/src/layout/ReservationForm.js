@@ -42,7 +42,7 @@ function ReservationForm() {
             name="first_name"
             onChange={changeHandler}
             value={newReservationData.first_name}
-            required={true}
+            required
           />
         </div>
         <div>
@@ -54,6 +54,7 @@ function ReservationForm() {
             name="last_name"
             onChange={changeHandler}
             value={newReservationData.last_name}
+            required
           />
         </div>
 
@@ -66,7 +67,7 @@ function ReservationForm() {
             name="mobile_number"
             onChange={changeHandler}
             value={newReservationData.mobile_number}
-            require={true}
+            required
           />
         </div>
 
@@ -79,7 +80,7 @@ function ReservationForm() {
             name="reservation_date"
             onChange={changeHandler}
             value={newReservationData.reservation_date}
-            require={true}
+            required
           />
         </div>
 
@@ -92,7 +93,7 @@ function ReservationForm() {
             name="reservation_time"
             onChange={changeHandler}
             value={newReservationData.reservation_time}
-            required={true}
+            required
           />
         </div>
 
@@ -105,10 +106,10 @@ function ReservationForm() {
             name="people"
             onChange={changeHandler}
             value={newReservationData.people}
-            required={true}
+            required
           />
         </div>
-        <button onClick={submitHandler} type="submit">
+        <button onClick={submitHandler} type="button">
           Submit
         </button>
         <button onCLick={cancelHandler} type="button">

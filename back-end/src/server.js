@@ -1,4 +1,5 @@
-const { PORT = 5000 } = process.env;
+// remove .PORT from process.env is troubleshooting
+const { PORT = 5000 } = process.env.PORT;
 
 const app = require("./app");
 const knex = require("./db/connection");

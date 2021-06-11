@@ -1,8 +1,8 @@
 
 
 function ReservationList ({reservations}) {
-const date = today();
-console.log("date", date)
+//const date = today();
+//console.log("date", date)
 const sortedReservations = reservations.sort((a,b) => {
    return b.reservation_time - a.reservation_time
 })

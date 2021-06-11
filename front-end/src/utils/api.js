@@ -81,3 +81,10 @@ export async function createReservation (reservationData, signal) {
 console.log("POST REQUEST", url, options);
 return await fetchJson(url, options)
 }
+
+export async function readByDate(reservation_date, signal) {
+  const url = `${API_BASE_URL}/reservations/ByDate?reservation_date=${reservation_date}`;
+  return await fetchJson(url, { signal })
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}

@@ -1,5 +1,3 @@
-
-
 /**
  * Defines the base URL for the API.
  * The default values is overridden by the `API_BASE_URL` environment variable.
@@ -59,31 +57,46 @@ async function fetchJson(url, options, onCancel) {
  * @returns {Promise<[reservation]>}
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
-
+/*
+export async function listReservations(params, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations`);
+  console.log("list params", params)
+  console.log ("list url", url)
+  Object.entries(params).forEach(([key, value]) =>
+    url.searchParams.append(key, value.toString())
+  );
+  return await fetchJson(url, { headers, signal }, [])
+    .then(res => console.log("res", res))
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+*/
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
   return await fetchJson(url, { headers, signal }, [])
+    .then((res) => console.log("res", res))
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
 
-export async function createReservation (reservationData, signal) {
-  const url =`S{API_BASE_URL}/reservations`;
+export async function createReservation(reservationData, signal) {
+  const url = `S{API_BASE_URL}/reservations`;
   const options = {
     method: "POST",
     headers,
     body: JSON.stringify(reservationData),
     signal,
-}
-console.log("POST REQUEST", url, options);
-return await fetchJson(url, options)
+  };
+  console.log("POST REQUEST", url, options);
+  return await fetchJson(url, options);
 }
 
-export async function readByDate(reservation_date, signal) {
-  const url = `${API_BASE_URL}/reservations/ByDate?reservation_date=${reservation_date}`;
+export async function reservationByDate(reservation_date, signal) {
+  const date = reservation_date.date;
+  const url = `${API_BASE_URL}/reservations/date?reservation_date=${date}`;
   return await fetchJson(url, { signal })
     .then(formatReservationDate)
     .then(formatReservationTime);

@@ -1,25 +1,19 @@
 
 
 function ReservationList ({reservations}) {
-//const date = today();
-//console.log("date", date)
-const sortedReservations = reservations.sort((a,b) => {
-   return b.reservation_time - a.reservation_time
-})
-console.log("reservations", reservations)
 
-const list = sortedReservations.map(sortedReservation => {
+const list = reservations.map(reservation => {
     return (
         <div>
-            <div className="card" key={sortedReservation.reservation_id}>
+            <div className="card" key={reservation.reservation_id}>
                 <div className="card-header">
-                    <h2>{sortedReservation.reservation_date}</h2>
-                    <h2>{sortedReservation.last_name}, {sortedReservation.first_name}</h2>
-                    <h2>{sortedReservation.reservation_time}</h2>
+                    <h2>{reservation.reservation_date}</h2>
+                    <h2>{reservation.last_name}, {reservation.first_name}</h2>
+                    <h2>{reservation.reservation_time}</h2>
                 </div>
                 <div className="card-body">
-                    <p>{sortedReservation.mobile_number}</p>
-                    <p>{sortedReservation.people}</p>
+                    <p>{reservation.mobile_number}</p>
+                    <p>{reservation.people}</p>
                 </div>
             </div>
         </div>

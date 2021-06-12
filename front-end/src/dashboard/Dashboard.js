@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { listReservations } from "../utils/api";
+import {reservationByDate } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../layout/ReservationList";
+import { useHistory, Link} from "react-router-dom";
+import {previous, next} from "../utils/date-time"
+
+
 
 /**
  * Defines the dashboard page.
@@ -9,26 +13,39 @@ import ReservationList from "../layout/ReservationList";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
-function Dashboard({ date }) {
+function Dashboard({date, setDate}) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const history = useHistory ();
+
+
 
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
-    listReservations({ date }, abortController.signal)
+    reservationByDate({date}, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     return () => abortController.abort();
   }
 
+ 
+
+
+  
+
   return (
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+        <h4 className="mb-0">Reservations for {date}</h4>
+      </div>
+      <div>
+        <Link to={`/dashboard/${previous(date)}`}>Previous</Link>
+        <Link to={`/dashboard/${date}`}>Today</Link>
+        <Link to={`/dashboard/${next(date)}`}>Next</Link>
       </div>
       <ReservationList reservations={reservations}/>
       <ErrorAlert error={reservationsError} />
@@ -38,3 +55,30 @@ function Dashboard({ date }) {
 }
 
 export default Dashboard;
+
+
+ 
+// form input to change the date to show ReservationsList
+/*
+const dateChangeHandler = ({ target }) => {
+  const newDate = target.value;
+  history.push(`/dashboard?date=${newDate}`);
+}
+
+const dateInput = (date) => {
+  return (
+    <form className="form-group">
+      <label htmlFor="reservation_date" />
+      <input
+        className="form-control"
+        type="date"
+        id="reservation_date"
+        name="reservation_date"
+        value={date}
+        onChange={dateChangeHandler}
+        required
+      />
+    </form>
+  );
+};
+*/

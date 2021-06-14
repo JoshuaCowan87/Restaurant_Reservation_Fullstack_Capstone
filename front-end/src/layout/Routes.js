@@ -22,7 +22,7 @@ function Routes() {
   const query = useQuery();
 
 
-  useEffect(loadDate, [url, query]);
+  useEffect(loadDate, [date, url, query]);
 
   function loadDate() {
     const newDate = query.get("date");

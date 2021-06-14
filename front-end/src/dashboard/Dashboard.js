@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import {reservationByDate } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../layout/ReservationList";
-import { useHistory, Link} from "react-router-dom";
-import {previous, next} from "../utils/date-time"
+import { useHistory, Link, useRouteMatch} from "react-router-dom";
+import {previous, next, today} from "../utils/date-time"
 
 
 
@@ -17,12 +17,15 @@ function Dashboard({date, setDate}) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
   const history = useHistory ();
+const url = useRouteMatch();
 
 
-
-  useEffect(loadDashboard, [date]);
-
+  useEffect(loadDashboard, [date, url]);
+  
   function loadDashboard() {
+    const reservation_date = date;
+    console.log("date", typeof date, date)
+    console.log("res", typeof reservation_date, reservation_date)
     const abortController = new AbortController();
     setReservationsError(null);
     reservationByDate({date}, abortController.signal)
@@ -44,7 +47,7 @@ function Dashboard({date, setDate}) {
       </div>
       <div>
         <Link to={`/dashboard/${previous(date)}`}>Previous</Link>
-        <Link to={`/dashboard/${date}`}>Today</Link>
+        <Link to={`/dashboard/`}>Today</Link>
         <Link to={`/dashboard/${next(date)}`}>Next</Link>
       </div>
       <ReservationList reservations={reservations}/>

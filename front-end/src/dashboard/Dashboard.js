@@ -3,7 +3,7 @@ import {reservationByDate } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../layout/ReservationList";
 import { useHistory, Link, useRouteMatch} from "react-router-dom";
-import {previous, next, today} from "../utils/date-time"
+import {previous, next} from "../utils/date-time"
 
 
 
@@ -16,7 +16,7 @@ import {previous, next, today} from "../utils/date-time"
 function Dashboard({date, setDate}) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-  const history = useHistory ();
+ // const history = useHistory ();
 const url = useRouteMatch();
 
 
@@ -24,8 +24,6 @@ const url = useRouteMatch();
   
   function loadDashboard() {
     const reservation_date = date;
-    console.log("date", typeof date, date)
-    console.log("res", typeof reservation_date, reservation_date)
     const abortController = new AbortController();
     setReservationsError(null);
     reservationByDate({date}, abortController.signal)
@@ -60,28 +58,3 @@ const url = useRouteMatch();
 export default Dashboard;
 
 
- 
-// form input to change the date to show ReservationsList
-/*
-const dateChangeHandler = ({ target }) => {
-  const newDate = target.value;
-  history.push(`/dashboard?date=${newDate}`);
-}
-
-const dateInput = (date) => {
-  return (
-    <form className="form-group">
-      <label htmlFor="reservation_date" />
-      <input
-        className="form-control"
-        type="date"
-        id="reservation_date"
-        name="reservation_date"
-        value={date}
-        onChange={dateChangeHandler}
-        required
-      />
-    </form>
-  );
-};
-*/

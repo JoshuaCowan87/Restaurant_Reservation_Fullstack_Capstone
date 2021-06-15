@@ -1,9 +1,6 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
-//const service = require("./reservations.service")
-//const reqHasValidProperties = require("./reqHasValidProperties")
-//const reqHasAllFields = require("./reqHasAllFields")
-//const reqHasOnlyValidProperties = require("./reqHasOnlyValidProperties")
+
 
 
 
@@ -40,23 +37,9 @@ validFields.forEach(field => {
     }
   
 
-function reqHasBody (req, res, next) {
-  const body = req.body;
-  if (body) {
-    return next()
-  }
-  else {
-    return next({
-      status: 400,
-      message: "request must have body"
-    })
-  }
-}
-
 function reqHasValidPeople(req, res, next) {
   const people = req.body.data.people;
   const isValid = Number.isInteger(people);
-
   if (people > 0 && isValid) {
     return next
   }
@@ -81,11 +64,9 @@ console.log("isValid", isValid)
 }
 
 function reqHasValidTime(req, res, next) {
- 
   const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
   const time = req.body.data.reservation_time;
   const isValid = time.match(regex);
-
   if (isValid) {
     return next()
   }
@@ -94,17 +75,20 @@ function reqHasValidTime(req, res, next) {
     message: `${time} is not a valid time`
   })
 }
+
+
 async function list(req, res) {
  const data = await service.list();
   res.json({data})
 }
 
+
 async function listByDate(req, res) {
   const {reservation_date} = req.query
-
   const data = await service.listByDate(reservation_date);
   res.json({data})
 }
+
 
 async function create (req, res) {
 const {data} = req.body;

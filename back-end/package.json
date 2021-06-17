@@ -1,9 +1,8 @@
 {
   "name": "starter-restaurant-reservation-back-end",
   "version": "1.0.0",
-  //     // added engines, to attempt heroku deployment
   "engines": {
-    "node": "12.13.0"
+    "node": "14.16.0"
   },
   "description": "Starter code for restaurant reservation backend",
   "main": "src/server.js",
@@ -43,7 +42,6 @@
     "pino": "^6.11.0",
     "pino-http": "^5.3.0",
     "pino-pretty": "^4.3.0",
-    // added concurently, to attempt heroku deployment
     "concurrently": "^5.2.0"
   },
   "devDependencies": {

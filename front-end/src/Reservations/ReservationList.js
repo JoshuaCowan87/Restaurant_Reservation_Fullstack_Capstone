@@ -20,7 +20,6 @@ const list = reservations.map(reservation => {
     )
 }
 )
-
 if (reservations.length < 1) {
     return (
         <div>No reservations found for this date</div>

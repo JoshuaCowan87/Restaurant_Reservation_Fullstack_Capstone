@@ -7,7 +7,7 @@ import formatReservationTime from "./format-reservation-date";
 
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
-//console.log("react_app_api", process.env.REACT_APP_API_BASE_URL)
+
 /**
  * Defines the default headers for these functions to work with `json-server`
  */
@@ -32,20 +32,19 @@ headers.append("Content-Type", "application/json");
 async function fetchJson(url, options, onCancel) {
   try {
     const response = await fetch(url, options);
-
     if (response.status === 204) {
       return null;
     }
 
     const payload = await response.json();
-
+    
     if (payload.error) {
       return Promise.reject({ message: payload.error });
     }
     return payload.data;
   } catch (error) {
     if (error.name !== "AbortError") {
-      console.error(error.stack);
+      console.error("error.stack", error.stack);
       throw error;
     }
     return Promise.resolve(onCancel);
@@ -82,21 +81,20 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
-export async function createReservation(reservationData, signal) {
-  const url = `S{API_BASE_URL}/reservations`;
+export async function createReservation(data, signal) {
+  const url = `${API_BASE_URL}/reservations`;
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify({reservationData}),
+    body: JSON.stringify({ data }),
     signal,
   };
-  console.log("POST REQUEST", url, options);
+  console.log("POST REQUEST, api", url, options);
   return await fetchJson(url, options);
 }
 
 export async function reservationByDate(reservation_date, signal) {
-  const date = reservation_date.date;
-  const url = `${API_BASE_URL}/reservations/date?reservation_date=${date}`;
+  const url = `${API_BASE_URL}/reservations/date?reservation_date=${reservation_date}`;
   return await fetchJson(url, { signal })
     .then(formatReservationDate)
     .then(formatReservationTime);

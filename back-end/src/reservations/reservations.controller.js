@@ -9,19 +9,21 @@ const validFields = [
 ]
 
 function reqHasAllFields (req, res, next) {
-const {data = {} } = req.body;
-validFields.forEach(field => {
-  if (!data[field]) {
-      return next({
-          status: 400,
-          message: `${field} is required`
-      })
+const data = req.body.data;
+console.log("allfields data", data);
+const invalidFields = Object.keys(data).filter(field => {
+  !validFields.includes(field) 
+  })
+  if (invalidFields.length > 0) {
+    return next({
+      status: 400,
+      message: `${invalidFields.join(" ,")} is required`
+    })
   }
   next()
-})
 }
 
-
+/*
   function reqHasOnlyValidProperties (req, res, next) {
     const {data = {}} = req.body;
     const invalidFields = Object.keys(data).filter(field => {
@@ -35,13 +37,17 @@ validFields.forEach(field => {
     }
     next()
     }
-  
+  */
 
 function reqHasValidPeople(req, res, next) {
-  const people = req.body.data.people;
+  req.body.data.people = Number(req.body.data.people)
+  console.log("p", typeof req.body.data.people, req.body.data.people)
+  const people = Number(req.body.data.people);
   const isValid = Number.isInteger(people);
-  if (people > 0 && isValid) {
-    return next
+  console.log("isValid", isValid)
+  console.log("people", typeof people, people)
+  if (people > 0 && isValid ) {
+    return next()
   }
 next ({
   status: 400,
@@ -92,7 +98,6 @@ async function listByDate(req, res) {
 
 async function create (req, res) {
 const {data} = req.body;
-console.log("data", data)
 const newReservation = await service.create(data)
 console.log("newRes", newReservation)
 res.status(201).json( {data: newReservation})
@@ -102,10 +107,10 @@ module.exports = {
  list: asyncErrorBoundary(list),
  listByDate: asyncErrorBoundary(listByDate),
  create: [
-  reqHasOnlyValidProperties, 
-  reqHasAllFields, 
-  reqHasValidDate, 
-  reqHasValidPeople, 
+  // reqHasOnlyValidProperties, 
+    reqHasAllFields, 
+   reqHasValidDate, 
+   reqHasValidPeople, 
   reqHasValidTime, 
    asyncErrorBoundary(create)]
 };

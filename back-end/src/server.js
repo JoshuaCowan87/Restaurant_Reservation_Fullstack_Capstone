@@ -1,13 +1,7 @@
 const { PORT = 5000 } = process.env;
 const app = require("./app");
 const knex = require("./db/connection");
-/* might need for heroku deoplyment
-const express = require('express')
-const cors = require('cors')
 
-const app = express()
-const router = express.Router()
-*/
 
 
 

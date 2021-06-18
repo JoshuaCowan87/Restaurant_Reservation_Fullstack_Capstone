@@ -15,6 +15,7 @@ const list = reservations.map(reservation => {
                     <p>{reservation.mobile_number}</p>
                     <p>{reservation.people}</p>
                 </div>
+                {/*<Link to={`/reservations/${reservation_id}/seat`}>Seat</Link> */}
             </div>
         </div>
     )

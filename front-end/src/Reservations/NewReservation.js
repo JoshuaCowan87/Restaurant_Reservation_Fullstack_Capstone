@@ -22,7 +22,7 @@ function NewReservation() {
     "Reservations must be between 1030am and 930pm",
   ];
   const changeHandler = (e) => {
-    e.preventDefault();
+   //e.preventDefault();
 
     //reservation must be in the future
     if (e.target.name === "reservation_date") {
@@ -53,7 +53,8 @@ function NewReservation() {
         }
       }
     }
-    setFormErrors(errors);
+    console.log(errors)
+    setFormErrors([...formErrors], errors);
 
     setNewReservationData({
       ...newReservationData,
@@ -63,7 +64,6 @@ function NewReservation() {
 
   const submitHandler = async (e) => {
     const abortController = new AbortController();
-
     if (errors.length > 0) {
       console.log("Form not submitted due to form errors");
     } else {
@@ -74,7 +74,7 @@ function NewReservation() {
         if (error.name === "AbortError") {
           console.log("Aborted");
         } else {
-          
+          throw error
         }
       }
     }

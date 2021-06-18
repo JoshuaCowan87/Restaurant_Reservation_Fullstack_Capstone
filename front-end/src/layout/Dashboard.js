@@ -15,7 +15,7 @@ import Tablelist from "./Tables/Tablelist"
 function Dashboard({ date, setDate }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
-
+  const [tables, setTables] = useState([1]);
   // set date based of url parameters
   const { url } = useRouteMatch();
   const params = useParams();
@@ -51,7 +51,7 @@ function Dashboard({ date, setDate }) {
       </div>
       <ReservationList reservations={reservations} />
       <ErrorAlert error={reservationsError} />
-      <Tablelist />
+      <Tablelist tables={tables}/>
       {/* {JSON.stringify(reservations)} */}
     </main>
   );

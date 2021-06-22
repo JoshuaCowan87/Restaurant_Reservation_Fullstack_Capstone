@@ -53,38 +53,7 @@ function eachFieldHasInput(req, res, next) {
   }
 }
 
-// function eachFieldHasInput (req, res, next) {
-//   // const {data} = req.body;
-//   // if (!data) return next({
-//   //   status:400,
-//   //   message: "all fields are missing"
-//   // })
-//   validFields.forEach(field => {
-//     if (!data[field]) {
-//       return next({
-//         status:400,
-//         message: `${field} is required.`
-//       })
-//     }
-//   })
-//   return next()
-// }
 
-// function hasOnlyNecessaryFields (req, res, next) {
-// const { data = {}} = req.body;
-// console.log("allfields data", data);
-// const missingFields = Object.keys(data).filter(field => {
-//   !validFields.includes(field)
-//   })
-//   console.log("missing fields", missingFields)
-//   if (missingFields.length > 0) {
-//     return next({
-//       status: 400,
-//       message: `${missingFields.join(" ,")} is required`
-//     })
-//   }
-//   next()
-// }
 
 function reqHasValidPeople(req, res, next) {
   //req.body.data.people = Number(req.body.data.people)

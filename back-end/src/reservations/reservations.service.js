@@ -11,7 +11,7 @@ function listByDate (reservation_date) {
     .select("*")
     .where({reservation_date: reservation_date})
     .orderBy("reservation_time").toSQL())
-console.log("listBydAte, res_date", reservation_date)
+
     return knex("reservations")
         .select("*")
         .where({reservation_date})

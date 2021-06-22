@@ -83,7 +83,7 @@ function ReservationForm({changeHandler, submitHandler, cancelHandler, reservati
             required
           />
         </div>
-        <button onClick={submitHandler} type="button">
+        <button onClick={submitHandler} type="submit">
           Submit
         </button>
         <button onClick={cancelHandler} type="button">

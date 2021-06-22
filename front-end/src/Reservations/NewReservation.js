@@ -13,7 +13,7 @@ function NewReservation() {
     mobile_number: "",
     reservation_date: "",
     reservation_time: "",
-    people: "",
+    people: 0,
   });
   let errors = [];
   let errorMessages = [
@@ -22,7 +22,7 @@ function NewReservation() {
     "Reservations must be between 1030am and 930pm",
   ];
   const changeHandler = (e) => {
-   //e.preventDefault();
+  // e.preventDefault();
 
     //reservation must be in the future
     if (e.target.name === "reservation_date") {
@@ -31,8 +31,11 @@ function NewReservation() {
       if (today > date) {
         if (!errors.includes(errorMessages[0])) {
           errors.push("Reservation must be in the future");
+          
         }
+       // setFormErrors([...formErrors, errors])
       }
+    
     }
     //reservation cannot be on a tuesday
     if (e.target.name === "reservation_date") {
@@ -41,20 +44,26 @@ function NewReservation() {
       if (day === 2) {
         if (!errors.includes(errorMessages[1])) {
           errors.push("Restaurant is Closed on Tuesdays");
+          
         }
+        //setFormErrors([...formErrors, errors])
       }
+      
     }
     //reservation must be between 1030am and 930pm
     if (e.target.name === "reservation_time") {
-      console.log("e.target.value", e.target.value)
       if (e.target.value < "10:30" || e.target.value > "21:30") {
         if (!errors.includes(errorMessages[2])) {
           errors.push("Reservations must be between 1030am and 930pm");
+          
         }
-      }
+       // setFormErrors([...formErrors, errors])
+        }
+     
     }
-    console.log(errors)
-    setFormErrors([...formErrors], errors);
+
+    
+    setFormErrors(errors);
 
     setNewReservationData({
       ...newReservationData,
@@ -62,23 +71,46 @@ function NewReservation() {
     });
   };
 
-  const submitHandler = async (e) => {
-    const abortController = new AbortController();
-    if (errors.length > 0) {
-      console.log("Form not submitted due to form errors");
-    } else {
-      try {
-        await createReservation(newReservationData, abortController.signal);
-        history.push(`/dashboard/${newReservationData.reservation_date}`);
-      } catch (error) {
-        if (error.name === "AbortError") {
-          console.log("Aborted");
-        } else {
-          throw error
-        }
-      }
+
+const submitHandler = async (e) => {
+  e.preventDefault();
+  const abortController = new AbortController();
+  if (errors.length > 0) {
+    console.log("Form not submitted due to form errors");
+  } else {
+    try {
+      await createReservation(newReservationData, abortController.signal);
+      history.push(`/dashboard/${newReservationData.reservation_date}`);
+    } catch (error) {
+      if (error.name === "AbortError") {
+        console.log("Aborted");
+      }     
     }
-  };
+  }
+  return () => abortController.abort()
+};
+
+  // const submitHandler = async (e) => {
+  //   const abortController = new AbortController();
+  //   if (errors.length > 0) {
+  //     console.log("Form not submitted due to form errors");
+  //   } else {
+  //     try {
+  //       await createReservation(newReservationData, abortController.signal);
+  //       history.push(`/dashboard/${newReservationData.reservation_date}`);
+  //     } catch (error) {
+  //       if (error.name === "AbortError") {
+  //         console.log("Aborted");
+  //       } 
+  //       // else {
+  //       //   throw error
+         
+  //       // }
+  //     }
+  //   //  history.push(`/dashboard/${newReservationData.reservation_date}`);
+  //   }
+  //   return () => abortController.abort()
+  // };
 
   function cancelHandler(e) {
     history.push("/dashboard");

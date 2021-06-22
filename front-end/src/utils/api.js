@@ -56,20 +56,7 @@ async function fetchJson(url, options, onCancel) {
  * @returns {Promise<[reservation]>}
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
-/*
-export async function listReservations(params, signal) {
-  const url = new URL(`${API_BASE_URL}/reservations`);
-  console.log("list params", params)
-  console.log ("list url", url)
-  Object.entries(params).forEach(([key, value]) =>
-    url.searchParams.append(key, value.toString())
-  );
-  return await fetchJson(url, { headers, signal }, [])
-    .then(res => console.log("res", res))
-    .then(formatReservationDate)
-    .then(formatReservationTime);
-}
-*/
+
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
@@ -82,19 +69,23 @@ export async function listReservations(params, signal) {
 }
 
 export async function createReservation(data, signal) {
+  console.log("api create 1")
   const url = `${API_BASE_URL}/reservations`;
+  data.people = Number(data.people);
+  //debugger
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify({ data }),
+    body: JSON.stringify({data}),
     signal,
   };
   console.log("POST REQUEST, api", url, options);
   return await fetchJson(url, options);
 }
 
-export async function reservationByDate(reservation_date, signal) {
-  const url = `${API_BASE_URL}/reservations/date?reservation_date=${reservation_date}`;
+export async function reservationByDate(date, signal) {
+  const url = `${API_BASE_URL}/reservations?date=${date}`;
+  console.log("api resBYDate", headers, signal)
   return await fetchJson(url, { signal })
     .then(formatReservationDate)
     .then(formatReservationTime);

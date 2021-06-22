@@ -1,48 +1,80 @@
 const service = require("./reservations.service");
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
-
-
-
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 const validFields = [
-  "first_name", "last_name", "mobile_number", "reservation_date", "reservation_time", "people"
-]
+  "first_name",
+  "last_name",
+  "mobile_number",
+  "reservation_date",
+  "reservation_time",
+  "people",
+];
+
+function timeAndDateValidation(req, res, next) {
+  const { reservation_date, reservation_time } = req.body.data;
+  const dayOfWeek = new Date(reservation_date).getUTCDay();
+  const today = new Date();
+  const resDate = new Date(reservation_date);
+
+  if (dayOfWeek === 2) {
+    return next({
+      status: 400,
+      message: "Restaurant is closed on Tuesdays",
+    });
+  }
+  if (today > resDate) {
+    return next({
+      status: 400,
+      message: "Reservation must be in the future",
+    });
+  }
+  if (reservation_time < "10:30" || reservation_time > "21:30") {
+    return next({
+      status: 400,
+      message: "reservation_time must be between 1030am and 930pm",
+    });
+  } else return next();
+}
+
+function eachFieldHasInput(req, res, next) {
+  const { data = {} } = req.body;
+
+  try {
+    validFields.forEach((fields) => {
+      if (!data[fields]) {
+        const error = new Error(`A '${fields}' is required.`);
+        error.status = 400;
+        throw error;
+      }
+    });
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
 
 // function eachFieldHasInput (req, res, next) {
-//   const {data = {}} = req.body;
+//   // const {data} = req.body;
+//   // if (!data) return next({
+//   //   status:400,
+//   //   message: "all fields are missing"
+//   // })
 //   validFields.forEach(field => {
 //     if (!data[field]) {
-//       return next ({
-//         status: 400,
-//         message: `A ${field} is required`
+//       return next({
+//         status:400,
+//         message: `${field} is required.`
 //       })
 //     }
-//     else next()
 //   })
+//   return next()
 // }
-
-function eachFieldHasInput (req, res, next) {
-const { data = {} } = req.body;
-
-    try {
-      validFields.forEach((fields) => {
-        if (!data[fields]) {
-          const error = new Error(`A '${fields}' is required.`);
-          error.status = 400;
-          throw error;
-        }
-      });
-      next();
-    } catch (error) {
-      next(error);
-    }
-  }
 
 // function hasOnlyNecessaryFields (req, res, next) {
 // const { data = {}} = req.body;
 // console.log("allfields data", data);
 // const missingFields = Object.keys(data).filter(field => {
-//   !validFields.includes(field) 
+//   !validFields.includes(field)
 //   })
 //   console.log("missing fields", missingFields)
 //   if (missingFields.length > 0) {
@@ -54,79 +86,76 @@ const { data = {} } = req.body;
 //   next()
 // }
 
-
 function reqHasValidPeople(req, res, next) {
-  req.body.data.people = Number(req.body.data.people)
-  console.log("p", typeof req.body.data.people, req.body.data.people)
-  const people = Number(req.body.data.people);
+  //req.body.data.people = Number(req.body.data.people)
+  const people = req.body.data.people;
   const isValid = Number.isInteger(people);
-  console.log("isValid", isValid)
-  console.log("people", typeof people, people)
-  if (people > 0 && isValid ) {
-    return next()
+  if (people > 0 && isValid) {
+    return next();
   }
-next ({
-  status: 400,
-  message: `Reservations require more than 1 person`
-}) 
+  return next({
+    status: 400,
+    message: `Reservations require more than 1 people`,
+  });
 }
 
-function reqHasValidDate (req, res, next) {
+function reqHasValidDate(req, res, next) {
   const date = req.body.data.reservation_date;
   const isValid = Date.parse(date);
-console.log("date", date)
-console.log("isValid", isValid)
-  if (date && isValid) {
-    return next ()
+
+  if (isValid) {
+    return next();
   }
   next({
-    status:400,
-    message: `A valid date is required`
-  })
+    status: 400,
+    message: `reservation_date is not a valid date.`,
+  });
 }
 
 function reqHasValidTime(req, res, next) {
-  const regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
+  const time_regex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
   const time = req.body.data.reservation_time;
-  const isValid = time.match(regex);
-  if (isValid) {
-    return next()
+  if (!time_regex.test(time)) {
+    return next({
+      status: 400,
+      message: `reservation_time is not a valid time`,
+    });
   }
-  next({
-    status:400,
-    message: `A vaid time is required`
-  })
+  return next();
 }
-
 
 async function list(req, res) {
- const data = await service.list();
-  res.json({data})
+  const { date } = req.query;
+  if (date) {
+    const data = await service.listByDate(date);
+    res.json({ data });
+  } else {
+    const data = await service.list();
+    res.json({ data });
+  }
 }
 
+// async function listByDate(req, res) {
+//   const {reservation_date} = req.query
+//   const data = await service.listByDate(reservation_date);
+//   res.json({data})
+// }
 
-async function listByDate(req, res) {
-  const {reservation_date} = req.query
-  const data = await service.listByDate(reservation_date);
-  res.json({data})
-}
-
-
-async function create (req, res) {
-const {data} = req.body;
-const newReservation = await service.create(data)
-console.log("newRes", newReservation)
-res.status(201).json( {data: newReservation})
+async function create(req, res) {
+  const { data } = req.body;
+  const newReservation = await service.create(data);
+  res.status(201).json({ data: newReservation });
 }
 
 module.exports = {
- list: asyncErrorBoundary(list),
- listByDate: asyncErrorBoundary(listByDate),
- create: [
-  eachFieldHasInput,
-   // hasOnlyNecessaryFields, 
-   reqHasValidDate, 
-   reqHasValidPeople, 
-  reqHasValidTime, 
-   asyncErrorBoundary(create)]
+  list: asyncErrorBoundary(list),
+  //listByDate: asyncErrorBoundary(listByDate),
+  create: [
+    eachFieldHasInput,
+    timeAndDateValidation,
+    reqHasValidDate,
+    reqHasValidPeople,
+    reqHasValidTime,
+    asyncErrorBoundary(create),
+  ],
 };

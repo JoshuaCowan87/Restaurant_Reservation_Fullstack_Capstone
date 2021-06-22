@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { reservationByDate } from "../utils/api";
+import { listReservations, reservationByDate } from "../utils/api";
 import ErrorAlert from "./ErrorAlert";
 import ReservationList from "../Reservations/ReservationList";
 import { Link, useRouteMatch, useParams } from "react-router-dom";
-import { previous, next } from "../utils/date-time";
-import { today } from "../utils/date-time";
-import Tablelist from "./Tables/Tablelist"
+import { previous, next, today } from "../utils/date-time";
+//import TableList from "./Tables/TableList"
 /**
  * Defines the dashboard page.
  * @param date
@@ -20,6 +19,7 @@ function Dashboard({ date, setDate }) {
   const { url } = useRouteMatch();
   const params = useParams();
   const newDate = params.date;
+  
   useEffect(loadDate, [url, date, newDate, setDate]);
   function loadDate() {
     if (newDate) setDate(newDate);
@@ -51,7 +51,7 @@ function Dashboard({ date, setDate }) {
       </div>
       <ReservationList reservations={reservations} />
       <ErrorAlert error={reservationsError} />
-      <Tablelist tables={tables}/>
+      {/*<TableList tables={tables}/> */}
       {/* {JSON.stringify(reservations)} */}
     </main>
   );

@@ -7,12 +7,17 @@ return knex("reservations")
 }
 
 function listByDate (reservation_date) {
+    console.log(knex("reservations")
+    .select("*")
+    .where({reservation_date: reservation_date})
+    .orderBy("reservation_time").toSQL())
+console.log("listBydAte, res_date", reservation_date)
     return knex("reservations")
         .select("*")
         .where({reservation_date})
         .orderBy("reservation_time")
 }
-
+// date format, in postGRES
 function create(newReservation) {
     return knex("reservations")
         .insert(newReservation)

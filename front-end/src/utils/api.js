@@ -41,6 +41,7 @@ async function fetchJson(url, options, onCancel) {
     if (payload.error) {
       return Promise.reject({ message: payload.error });
     }
+    console.log("payload.data in fetchJson", payload.data)
     return payload.data;
   } catch (error) {
     if (error.name !== "AbortError") {
@@ -85,11 +86,13 @@ export async function createReservation(data, signal) {
 
 export async function reservationByDate(date, signal) {
   const url = `${API_BASE_URL}/reservations?date=${date}`;
-  console.log("api resBYDate", headers, signal)
   return await fetchJson(url, { signal })
+  
+  // if no reservations, dont format date
     .then(formatReservationDate)
-    .then(formatReservationTime);
+   .then(formatReservationTime);
 }
+
 
 export async function createTable(data, signal) {
   const url = `${API_BASE_URL}/tables`;

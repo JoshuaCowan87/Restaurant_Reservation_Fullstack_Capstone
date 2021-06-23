@@ -4,7 +4,7 @@ function ReservationList ({reservations}) {
 
 const list = reservations.map(reservation => {
     return (
-        <div>
+        
             <div className="card" key={reservation.reservation_id}>
                 <div className="card-header">
                     <h2>{reservation.reservation_date}</h2>
@@ -17,7 +17,7 @@ const list = reservations.map(reservation => {
                 </div>
                 {/*<Link to={`/reservations/${reservation_id}/seat`}>Seat</Link> */}
             </div>
-        </div>
+        
     )
 }
 )

@@ -50,7 +50,9 @@ function Dashboard({ date, setDate }) {
         <Link to={`/dashboard/${next(date)}`}>Next</Link>
       </div>
       <ReservationList reservations={reservations} />
-      <ErrorAlert error={reservationsError} />
+
+     {/* need to debug reservations error "cannot read property "reservation_date" of undefined
+     <ErrorAlert error={reservationsError} /> */}
       {/*<TableList tables={tables}/> */}
       {/* {JSON.stringify(reservations)} */}
     </main>

@@ -1,8 +1,9 @@
-
+import {Link} from "react-router-dom";
 
 function ReservationList ({reservations}) {
 
 const list = reservations.map(reservation => {
+    let reservation_id = reservation.reservation_date;
     return (
         
             <div className="card" key={reservation.reservation_id}>
@@ -15,7 +16,7 @@ const list = reservations.map(reservation => {
                     <p>{reservation.mobile_number}</p>
                     <p>{reservation.people}</p>
                 </div>
-                {/*<Link to={`/reservations/${reservation_id}/seat`}>Seat</Link> */}
+                <Link to={`/reservations/${reservation_id}/seat`}>Seat</Link> 
             </div>
         
     )
@@ -23,7 +24,7 @@ const list = reservations.map(reservation => {
 )
 if (reservations.length < 1) {
     return (
-        <div>No reservations found for this date</div>
+        <div>No reservations found</div>
     )
 } else {
     return (

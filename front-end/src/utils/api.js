@@ -41,7 +41,6 @@ async function fetchJson(url, options, onCancel) {
     if (payload.error) {
       return Promise.reject({ message: payload.error });
     }
-    console.log("payload.data in fetchJson", payload.data)
     return payload.data;
   } catch (error) {
     if (error.name !== "AbortError") {
@@ -102,11 +101,19 @@ export async function createTable(data, signal) {
     body: JSON.stringify({data}),
     signal,
   }
-  console.log("table post request", url, options);
   return await fetchJson(url, options);
 }
 
 export async function listTables(signal) {
-  const url = `${API_BASE_URL}/tables`;
-  return await fetchJson(url, {signal})
+  const url = new URL(`${API_BASE_URL}/tables`);
+  return await fetchJson(url, {headers, signal}, [])
+}
+
+export async function reservationByPhone(mobile_number, signal) {
+  console.log("mobilenumber is search", mobile_number)
+  const url = `${API_BASE_URL}/reservations?mobile_number=${mobile_number}`
+  return await fetchJson(url,{signal} )
+    .then(formatReservationDate)
+    .then(formatReservationTime)
+    .then(console.log("then"))
 }

@@ -94,11 +94,20 @@ function reqHasValidTime(req, res, next) {
 }
 
 async function list(req, res) {
-  const { date } = req.query;
+  const { date, mobile_number} = req.query;
+  console.log("mobilenumber", mobile_number)
   if (date) {
+    
     const data = await service.listByDate(date);
     res.json({ data });
-  } else {
+  } 
+  if (mobile_number) {
+    console.log("searchbyphone in controller")
+    const data = await service.listByPhone(mobile_number);
+    res.json({data})
+  }
+  else {
+    console.log("controller, list")
     const data = await service.list();
     res.json({ data });
   }
@@ -118,7 +127,6 @@ async function create(req, res) {
 
 module.exports = {
   list: asyncErrorBoundary(list),
-  //listByDate: asyncErrorBoundary(listByDate),
   create: [
     eachFieldHasInput,
     timeAndDateValidation,

@@ -26,7 +26,7 @@ function asDateString(date) {
  *  the specified date string formatted as YYYY-MM-DD
  */
 export function formatAsDate(dateString) {
-  console.log("d-t datastring", dateString)
+ // console.log("d-t datastring", dateString)
   return dateString.match(dateFormat)[0];
 }
 
@@ -58,6 +58,7 @@ export function today() {
  *  the date one day prior to currentDate, formatted as YYYY-MM-DD
  */
 export function previous(currentDate) {
+ // console.log("currentDate", currentDate)
   let [ year, month, day ] = currentDate.split("-");
   month -= 1;
   const date = new Date(year, month, day);

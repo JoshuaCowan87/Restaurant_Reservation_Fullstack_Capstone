@@ -4,9 +4,10 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
-import Search from "./Search";
+import SearchByPhone from "./SearchByPhone";
 import NewTable from "./Tables/NewTable";
 import NewReservation from "../Reservations/NewReservation";
+import Reservation from "../Reservations/Reservation";
 
 /**
  * Defines all the routes for the application.
@@ -17,15 +18,9 @@ import NewReservation from "../Reservations/NewReservation";
  */
 function Routes() {
   const [date, setDate] = useState(today());
-  
+ 
 
-  // useEffect(loadDate, [date, url, query]);
 
-  // function loadDate() {
-  //   const newDate = query.get("date");
-  //   console.log("routes newDate", newDate)
-  //   if (newDate) setDate(newDate);
-  // }
 
   return (
     <Switch>
@@ -39,16 +34,19 @@ function Routes() {
         <Dashboard date={date} setDate={setDate} />
       </Route>
       <Route path ="/dashboard/">
-        <Dashboard />
+        <Dashboard date={date} setDate={setDate}/>
       </Route>
         <Route exact path="/search">
-          <Search />
+          <SearchByPhone />
         </Route>
         <Route exact path="/reservations/new">
           <NewReservation  />
         </Route>
         <Route path="/tables/new">
           <NewTable />
+        </Route>
+        <Route>
+          <Reservation />
         </Route>
       <Route>
         <NotFound />

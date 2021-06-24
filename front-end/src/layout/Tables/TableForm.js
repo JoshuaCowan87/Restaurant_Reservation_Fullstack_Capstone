@@ -28,8 +28,8 @@ function TableForm ({cancelHandler, changeHandler, submitHandler, newTableData})
             required/>
         </div>
       </form>
-      <button onClick={submitHandler} >Submit</button>
-      <button onClick={cancelHandler}>Cancel</button>
+      <button onClick={submitHandler} type="submit">Submit</button>
+      <button onClick={cancelHandler} type="button">Cancel</button>
         </div>
     )
 }

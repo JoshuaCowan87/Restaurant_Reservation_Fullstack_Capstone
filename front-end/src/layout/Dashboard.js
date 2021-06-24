@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { listReservations, reservationByDate, listTables } from "../utils/api";
-import ErrorAlert from "./ErrorAlert";
+import { reservationByDate, listTables } from "../utils/api";
+//import ErrorAlert from "./ErrorAlert";
 import ReservationList from "../Reservations/ReservationList";
 import { Link, useRouteMatch, useParams } from "react-router-dom";
 import { previous, next, today } from "../utils/date-time";
@@ -22,7 +22,7 @@ function Dashboard({ date, setDate }) {
   const params = useParams();
   const newDate = params.date;
   console.log("newDate", newDate)
-  useEffect(loadDate, [url, date, setDate]);
+  useEffect(loadDate, [url, date, setDate, newDate]);
   function loadDate() {
     if (newDate) setDate(newDate)
     else setDate(today())

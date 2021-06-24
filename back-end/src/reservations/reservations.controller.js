@@ -95,19 +95,16 @@ function reqHasValidTime(req, res, next) {
 
 async function list(req, res) {
   const { date, mobile_number} = req.query;
-  console.log("mobilenumber", mobile_number)
   if (date) {
     
     const data = await service.listByDate(date);
     res.json({ data });
   } 
-  if (mobile_number) {
-    console.log("searchbyphone in controller")
+  else if (mobile_number) {
     const data = await service.listByPhone(mobile_number);
     res.json({data})
   }
   else {
-    console.log("controller, list")
     const data = await service.list();
     res.json({ data });
   }

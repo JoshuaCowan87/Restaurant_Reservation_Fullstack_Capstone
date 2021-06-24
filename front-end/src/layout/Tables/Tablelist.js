@@ -6,7 +6,7 @@ function TableList({ tables }) {
 
   const tableList = tables.map((table) => {
     return (
-      <div key={table.table_id}>
+      <div className="card" key={table.table_id}>
         <div data-table-id-status={table.table_id}>
           {isFree === true ? "Free" : "Occupied"}
         </div>

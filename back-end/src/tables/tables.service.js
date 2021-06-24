@@ -6,4 +6,11 @@ function list () {
         
 }
 
-module.exports = {list}
+function create(newTable) {
+    return knex("tables")
+        .insert(newTable)
+        .returning("*")
+        .then(newTable => newTable[0])
+}
+
+module.exports = {list, create}

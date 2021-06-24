@@ -5,7 +5,14 @@ async function list (req, res, next) {
     const data = await service.list();
     res.json({data})
 }
+async function create(req, res, next) {
+    const newTable = req.body.data;
+    console.log("newTable", newTable)
+    const data = await service.create(newTable);
+    res.json({data})
+}
 
 module.exports = {
-    list: asyncErrorBoundary(list)
+    list: asyncErrorBoundary(list),
+    create
 }

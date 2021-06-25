@@ -28,9 +28,16 @@ function listByPhone(mobile_number) {
       .orderBy("reservation_date");
   }
 
+  function read(reservation_id) {
+    return knex("reservations")
+      .select("*")
+      .where({reservation_id})
+  }
+
 module.exports = {
   list,
   listByDate,
   listByPhone,
   create,
+  read
 };

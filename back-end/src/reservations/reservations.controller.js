@@ -122,6 +122,12 @@ async function create(req, res) {
   res.status(201).json({ data: newReservation });
 }
 
+async function read (req, res) {
+  const {id} = req.params;
+ const data = await service.read(id)
+  res.json({data})
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -132,4 +138,5 @@ module.exports = {
     reqHasValidTime,
     asyncErrorBoundary(create),
   ],
+  read
 };

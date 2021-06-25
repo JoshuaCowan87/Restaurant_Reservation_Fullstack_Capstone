@@ -46,7 +46,7 @@ async function fetchJson(url, options, onCancel) {
     return payload.data;
   } catch (error) {
     if (error.name !== "AbortError") {
-      console.error("error.stack", error.stack);
+      //console.error("error.stack", error.stack);
       throw error;
     }
     return Promise.resolve(onCancel);
@@ -93,7 +93,7 @@ export async function reservationByDate(date, signal) {
 
 
 export async function createTable(data, signal) {
-  const url = `${API_BASE_URL}/tables`;
+  const url = new URL(`${API_BASE_URL}/tables`);
   console.log("create table data", data)
   const options = {
     method: "POST",
@@ -114,5 +114,19 @@ export async function reservationByPhone(mobile_number, signal) {
   return await fetchJson(url,{signal} )
     .then(formatReservationDate)
     .then(formatReservationTime)
-    .then(console.log("then"))
+}
+
+// export async function reservationById(reservation_id, signal) {
+//   console.log("api resbyid1")
+//   const url = new URL`${API_BASE_URL}/reservations/${reservation_id}`;
+//   return await fetchJson(url, {headers, signal}, [])
+//     .then(formatReservationDate)
+//     .then(formatReservationTime)
+// }
+
+export async function reservationById(reservation_id, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
+  return await fetchJson(url, {signal},)
+    .then(formatReservationDate)
+    .then(formatReservationTime);
 }

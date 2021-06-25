@@ -14,7 +14,8 @@ router.route("/")
     .post(controller.create)
     .all(methodNotAllowed)
 
-
+router.route("/:id")
+    .get(controller.read)
 
 
 module.exports = router;

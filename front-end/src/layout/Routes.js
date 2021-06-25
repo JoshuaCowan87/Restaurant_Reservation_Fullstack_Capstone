@@ -19,8 +19,7 @@ import SeatReservation from "./SeatReservation"
  */
 function Routes() {
   const [date, setDate] = useState(today());
- 
-
+  
 
 
   return (
@@ -32,10 +31,10 @@ function Routes() {
         <Redirect to={"/dashboard/"} />
            </Route>           
       <Route path="/dashboard/:date">
-        <Dashboard date={date} setDate={setDate} />
+        <Dashboard date={date} setDate={setDate}  />
       </Route>
       <Route path ="/dashboard/">
-        <Dashboard date={date} setDate={setDate}/>
+        <Dashboard date={date} setDate={setDate} />
       </Route>
         <Route exact path="/search">
           <SearchByPhone />
@@ -46,7 +45,7 @@ function Routes() {
         <Route path="/tables/new">
           <NewTable />
         </Route>
-        <Route>
+        <Route path="/reservations/:reservation_id/seat" >
           <SeatReservation />
         </Route>
         <Route>

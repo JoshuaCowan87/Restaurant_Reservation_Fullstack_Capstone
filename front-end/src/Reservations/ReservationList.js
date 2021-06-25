@@ -7,7 +7,7 @@ const cancelHandler = (e) => {
 }
 
 const list = reservations.map(reservation => {
-    let reservation_id = reservation.reservation_date;
+    let reservation_id = reservation.reservation_id;
     return (
         
             <div className="card" key={reservation.reservation_id}>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { reservationByDate, listTables } from "../utils/api";
-//import ErrorAlert from "./ErrorAlert";
+import { reservationByDate, listTables, listReservations } from "../utils/api";
+import ErrorAlert from "./ErrorAlert";
 import ReservationList from "../Reservations/ReservationList";
 import { Link, useRouteMatch, useParams } from "react-router-dom";
 import { previous, next, today } from "../utils/date-time";
-import TableList from "./Tables/TableList"
+import TableList from "../Tables/TableList"
 /**
  * Defines the dashboard page.
  * @param date
@@ -22,7 +22,6 @@ function Dashboard({ date, setDate}) {
   const { url } = useRouteMatch();
   const params = useParams();
   const newDate = params.date;
-  console.log("newDate", newDate)
   useEffect(loadDate, [url, date, setDate, newDate]);
   function loadDate() {
     if (newDate) setDate(newDate)
@@ -38,13 +37,11 @@ function Dashboard({ date, setDate}) {
     listTables(abortController.signal)
       .then(setTables)
       .catch(setTablesErrors);
-    reservationByDate(date, abortController.signal)
+    listReservations({date}, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     return () => abortController.abort();
   }
-
-console.log("tables", tables)
 
   return (
     <main>
@@ -57,13 +54,9 @@ console.log("tables", tables)
         <Link to={`/dashboard/`}>Today</Link>
         <Link to={`/dashboard/${next(date)}`}>Next</Link>
       </div>
+      <ErrorAlert error={reservationsError} /> 
       <ReservationList reservations={reservations} />
-      
-
-     {/* need to debug reservations error "cannot read property "reservation_date" of undefined
-     <ErrorAlert error={reservationsError} /> */}
       <TableList tables={tables}/> 
-      {/* {JSON.stringify(reservations)} */}
     </main>
   );
 }

@@ -5,13 +5,14 @@ function list() {
   return knex("reservations").select("*");
 }
 
+
 function listByDate(reservation_date) {
   return knex("reservations")
     .select("*")
     .where({ reservation_date })
     .orderBy("reservation_time");
 }
-// date format, in postGRES
+
 function create(newReservation) {
   return knex("reservations")
     .insert(newReservation)
@@ -31,7 +32,7 @@ function listByPhone(mobile_number) {
   function read(reservation_id) {
     return knex("reservations")
       .select("*")
-      .where({reservation_id})
+      .where({reservation_id})  
   }
 
 module.exports = {

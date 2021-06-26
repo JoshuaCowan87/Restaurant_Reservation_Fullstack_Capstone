@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { listTables } from "../../utils/api";
+import { listTables } from "../utils/api";
 
 function TableList({ tables }) {
   const [isFree, setIsFree] = useState(true);
@@ -8,7 +8,7 @@ function TableList({ tables }) {
     return (
       <div className="card" key={table.table_id}>
         <div data-table-id-status={table.table_id}>
-          {isFree === true ? "Free" : "Occupied"}
+          {table.reservation_id ? "Occupied" : "Free"}
         </div>
         <div>
           <p>{table.table_name}</p>

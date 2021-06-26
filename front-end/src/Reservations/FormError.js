@@ -1,9 +1,14 @@
 function FormError ({formErrors}) {
     let id = 0
+
+    if (formErrors.length === 0) {
+        return null
+    }
+
     const formErrorList = formErrors.map(error => {
         id++;
         return (
-        <div className="alert alert-danger m-2" key={id}>Error: {error}</div>
+        <div className="alert alert-danger" key={id}>Error: {error}</div>
             
         )
     })
@@ -16,8 +21,7 @@ function FormError ({formErrors}) {
                 </div>
             )
         }
-        return null
-        
+       
     }
     
     

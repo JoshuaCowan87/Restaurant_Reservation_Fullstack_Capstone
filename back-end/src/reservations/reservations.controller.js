@@ -38,7 +38,6 @@ function timeAndDateValidation(req, res, next) {
 
 function eachFieldHasInput(req, res, next) {
   const { data = {} } = req.body;
-
   try {
     validFields.forEach((fields) => {
       if (!data[fields]) {
@@ -53,10 +52,20 @@ function eachFieldHasInput(req, res, next) {
   }
 }
 
-
+async function reservationExists(req, res, next) {
+  const {reservation_id} = req.params;
+  const reservations = await service.read(reservation_id);
+  const reservation = reservations[0]
+  if (reservation) {
+    return next()
+  }
+  next({
+    status: 404,
+    message: `reservation ${reservation_id} not found`
+  })
+}
 
 function reqHasValidPeople(req, res, next) {
-  //req.body.data.people = Number(req.body.data.people)
   const people = req.body.data.people;
   const isValid = Number.isInteger(people);
   if (people > 0 && isValid) {
@@ -110,12 +119,6 @@ async function list(req, res) {
   }
 }
 
-// async function listByDate(req, res) {
-//   const {reservation_date} = req.query
-//   const data = await service.listByDate(reservation_date);
-//   res.json({data})
-// }
-
 async function create(req, res) {
   const { data } = req.body;
   const newReservation = await service.create(data);
@@ -123,9 +126,10 @@ async function create(req, res) {
 }
 
 async function read (req, res) {
-  const {id} = req.params;
- const data = await service.read(id)
+  const {reservation_id} = req.params;
+ const data = await service.read(reservation_id)
   res.json({data})
+ 
 }
 
 module.exports = {
@@ -138,5 +142,5 @@ module.exports = {
     reqHasValidTime,
     asyncErrorBoundary(create),
   ],
-  read
+  read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)]
 };

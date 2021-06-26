@@ -1,6 +1,6 @@
 import { useHistory, Link, useParams } from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import { reservationById, listTables } from "../utils/api";
+import { reservationById, listTables, seatTable } from "../utils/api";
 import ErrorAlert from "./ErrorAlert";
 
 
@@ -26,11 +26,17 @@ function load () {
       .catch(setErrors);
     return () => abortController.signal
 }
-
-
   const submitHandler = async (e) => {
-    console.log("assign seat handler");
-  };
+    e.preventDefault();
+   const abortController = new AbortController;
+   try {
+await seatTable(reservation_id, currentTable.table_id, abortController.signal);
+history.push("/dashboard");
+   } catch(error) {
+     setErrors(error)
+   }
+   return () => abortController.abort()
+  }
 
   const reservationCard = (
 <div className="card" key={reservation.reservation_id}>
@@ -54,6 +60,7 @@ const changeHandler = (e) => {
    })
 }
 
+//only list options for tables that are not currently seated
 const freeTables = tables.filter(table => table.reservation_id === null)
 
   return (
@@ -66,10 +73,9 @@ const freeTables = tables.filter(table => table.reservation_id === null)
               <h3>Select a table</h3>
             <select 
                 name="table_id"
-                onChange={changeHandler}
-                
+                onChange={changeHandler}              
                 > {freeTables.map((table) => (
-                    <option key={table.table_id} value={table.table_id}>
+                    <option key={table.table_id} value={table.table_id} defaultValue="Select Table">
                         {table.table_name} - {table.capacity}
                     </option>
                     ))}

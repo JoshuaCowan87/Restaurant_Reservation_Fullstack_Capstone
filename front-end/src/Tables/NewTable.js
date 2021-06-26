@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import TableForm from "./TableForm";
 import {useHistory} from "react-router-dom";
-import { createTable } from "../../utils/api";
+import { createTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
 function NewTable() {
@@ -15,23 +15,20 @@ const [errors, setErrors] = useState(null)
 
 const changeHandler = (e) => {
   e.preventDefault();
-
     setNewTableData({...newTableData, [e.target.name]: e.target.value})
 }
 
 const submitHandler = async (e) => {
 e.preventDefault();
 const abortController = new AbortController();
-console.log("table submit hander")
 try {
-  console.log("table submithandler")
  await createTable(newTableData, abortController.signal)
  history.push("/dashboard")
 } catch(error) {
   if (error.name === "AbortController") {
     console.log("Aborted")
   } else {
-  throw error
+  setErrors(error)
   }
 }
 return () => abortController.abort()
@@ -43,9 +40,9 @@ history.goBack();
 
   return (
     <div>
-      
+      <ErrorAlert error={errors} />
      <TableForm changeHandler={changeHandler} newTableData={newTableData} submitHandler={submitHandler} cancelHandler={cancelHandler}/>
-     <ErrorAlert error={error} />
+     
     </div>
   );
 }

@@ -7,7 +7,7 @@ const cancelHandler = (e) => {
 }
 
 const list = reservations.map(reservation => {
-    let reservation_id = reservation.reservation_id;
+    
     return (
         
             <div className="card" key={reservation.reservation_id}>
@@ -20,8 +20,8 @@ const list = reservations.map(reservation => {
                     <p>{reservation.mobile_number}</p>
                     <p>{reservation.people}</p>
                 </div>
-                <Link to={`/reservations/${reservation_id}/seat`}>Seat</Link> 
-                <Link to={`/reservations/${reservation_id}/edit`}>Edit</Link>
+                <Link to={`/reservations/${reservation.reservation_id}/seat`}>Seat</Link> 
+                <Link to={`/reservations/${reservation.reservation_id}/edit`}>Edit</Link>
                 <button data-reservation-id-cancel={reservation.reservation_id} onClick={cancelHandler} >Cancel</button>
             </div>
         

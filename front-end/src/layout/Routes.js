@@ -5,7 +5,7 @@ import Dashboard from "./Dashboard";
 import NotFound from "./NotFound";
 import { today } from "../utils/date-time";
 import SearchByPhone from "./SearchByPhone";
-import NewTable from "./Tables/NewTable";
+import NewTable from "../Tables/NewTable";
 import NewReservation from "../Reservations/NewReservation";
 import Reservation from "../Reservations/Reservation";
 import SeatReservation from "./SeatReservation"

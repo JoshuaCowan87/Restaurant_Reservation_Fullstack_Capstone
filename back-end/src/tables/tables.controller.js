@@ -2,7 +2,6 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./tables.service");
 const reservationsService = require("../reservations/reservations.service");
 
-
 validFields = ["table_name", "capacity"];
 
 function bodyHasData(req, res, next) {
@@ -27,6 +26,7 @@ function bodyHasResId(req, res, next) {
 }
 
 async function tableIdExists(req, res, next) {
+  console.log("controller tableIdExists 1");
   const { table_id } = req.params;
   const table = await service.read(table_id);
   if (table) {
@@ -75,7 +75,7 @@ async function tableHasCapacity(req, res, next) {
   next();
 }
 
-async function isTableOccupied(req, res, next) {
+async function tableIsOccupied(req, res, next) {
   const { table_id } = req.params;
   const table = await service.read(table_id);
   if (table.reservation_id === null) {
@@ -83,8 +83,20 @@ async function isTableOccupied(req, res, next) {
   }
   next({
     status: 400,
-    message: "Table is already occupied",
+    message: "This table is already occupied",
   });
+}
+
+async function tableIsUnoccupied(req, res, next) {
+  const { table_id } = req.params;
+  const table = await service.read(table_id);
+  if (table.reservation_id === null) {
+    return next({
+      status: 400,
+      message: "Table is not occupied",
+    });
+  }
+  return next();
 }
 
 function reqHasCapacity(req, res, next) {
@@ -118,6 +130,12 @@ async function update(req, res) {
   res.json({ data });
 }
 
+async function finishTable(req, res, next) {
+  const { table_id, reservation_id } = res.locals.table;
+  const data = await service.finishTable(reservation_id, table_id);
+  res.status(200).json({ data });
+}
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
@@ -131,7 +149,12 @@ module.exports = {
     bodyHasResId,
     asyncErrorBoundary(resIdExists),
     asyncErrorBoundary(tableHasCapacity),
-    asyncErrorBoundary(isTableOccupied),
+    asyncErrorBoundary(tableIsOccupied),
     asyncErrorBoundary(update),
+  ],
+  finishTable: [
+    tableIdExists,
+    tableIsUnoccupied,
+    asyncErrorBoundary(finishTable),
   ],
 };

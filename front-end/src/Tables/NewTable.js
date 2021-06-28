@@ -9,7 +9,7 @@ const [newTableData, setNewTableData] = useState({
     table_name: "",
     capacity: ""
 });
-const [tables, setTables] = useState([])
+//const [tables, setTables] = useState([])
 const history = useHistory();
 const [errors, setErrors] = useState(null)
 

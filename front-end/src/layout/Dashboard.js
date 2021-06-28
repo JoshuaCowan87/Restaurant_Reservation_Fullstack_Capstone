@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { reservationByDate, listTables, listReservations } from "../utils/api";
+import { listTables, listReservations, finishTable } from "../utils/api";
 import ErrorAlert from "./ErrorAlert";
 import ReservationList from "../Reservations/ReservationList";
 import { Link, useRouteMatch, useParams } from "react-router-dom";
 import { previous, next, today } from "../utils/date-time";
-import TableList from "../Tables/TableList"
+import TableList from "../Tables/TableList";
+
 /**
  * Defines the dashboard page.
  * @param date
@@ -14,9 +15,9 @@ import TableList from "../Tables/TableList"
 function Dashboard({ date, setDate}) {
   
   const [reservations, setReservations] = useState([]);
-  const [reservationsError, setReservationsError] = useState(null);
+  const [errors, setErrors] = useState(null);
   const [tables, setTables] = useState([]);
-  const [tablesErrors, setTablesErrors] = useState(null)
+  //const [tablesErrors, setTablesErrors] = useState(null)
 
   // set date based of url parameters
   const { url } = useRouteMatch();
@@ -32,16 +33,34 @@ function Dashboard({ date, setDate}) {
 
   function loadDashboard() {
     const abortController = new AbortController();
-    setReservationsError(null);
-    setTablesErrors(null);
+    setErrors(null);
+    //setTablesErrors(null);
     listTables(abortController.signal)
       .then(setTables)
-      .catch(setTablesErrors);
+      //.catch(setTablesErrors);
     listReservations({date}, abortController.signal)
       .then(setReservations)
-      .catch(setReservationsError);
+      .catch(setErrors);
     return () => abortController.abort();
   }
+
+
+  const finishHandler = async (table) => {
+    const abortController = new AbortController();
+    try {
+   if (window.confirm("Is this table ready to seat new guests? This cannot be undone.")) { 
+     await finishTable(table.table_id, abortController.signal);
+   }
+  await loadDashboard();
+    } catch (error) {
+      if (errors.name === "AbortError") {
+        console.log("aborted")
+      }
+      setErrors(error)
+    }
+   return () => abortController.abort()
+}
+  
 
   return (
     <main>
@@ -54,9 +73,9 @@ function Dashboard({ date, setDate}) {
         <Link to={`/dashboard/`}>Today</Link>
         <Link to={`/dashboard/${next(date)}`}>Next</Link>
       </div>
-      <ErrorAlert error={reservationsError} /> 
+      <ErrorAlert error={errors} /> 
       <ReservationList reservations={reservations} />
-      <TableList tables={tables}/> 
+      <TableList tables={tables} setTables={setTables} finishHandler={finishHandler}/> 
     </main>
   );
 }

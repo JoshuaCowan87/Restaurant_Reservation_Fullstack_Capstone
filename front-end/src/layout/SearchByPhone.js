@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import ReservationList from "../Reservations/ReservationList";
 import { reservationByPhone } from "../utils/api";
+import ErrorAlert from "./ErrorAlert";
 
 function SearchByPhone() {
   const [searchNumber, setSearchNumber] = useState({
@@ -52,6 +53,7 @@ return () => abortController.abort()
               <button onClick={searchHandler} type="submit">Find</button>
           </div>
           <div>
+              <ErrorAlert error={phoneError} />
               <ReservationList reservations={foundReservations}/>
           </div>
         </div>

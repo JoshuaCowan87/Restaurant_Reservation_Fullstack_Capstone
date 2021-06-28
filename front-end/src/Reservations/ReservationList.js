@@ -6,8 +6,9 @@ const cancelHandler = (e) => {
     console.log("cancel")
 }
 
+
 const list = reservations.map(reservation => {
-    
+    if (reservation.status === "seated") return null
     return (
         
             <div className="card" key={reservation.reservation_id}>
@@ -20,14 +21,16 @@ const list = reservations.map(reservation => {
                     <p>{reservation.mobile_number}</p>
                     <p>{reservation.people}</p>
                 </div>
-                <Link to={`/reservations/${reservation.reservation_id}/seat`}>Seat</Link> 
-                <Link to={`/reservations/${reservation.reservation_id}/edit`}>Edit</Link>
+                <Link to={`/reservations/${reservation.reservation_id}/seat`} className="btn btn-success">Seat</Link> 
+                <Link to={`/reservations/${reservation.reservation_id}/edit`} className="btn btn-warning">Edit</Link>
+            
                 <button data-reservation-id-cancel={reservation.reservation_id} onClick={cancelHandler} >Cancel</button>
             </div>
         
     )
 }
 )
+
 if (reservations.length < 1) {
     return (
         <div>No reservations found</div>

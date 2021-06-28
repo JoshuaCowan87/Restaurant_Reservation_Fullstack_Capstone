@@ -10,6 +10,7 @@ router.route("/")
 
 router.route("/:table_id/seat")
     .put(controller.update)
+    .delete(controller.finishTable)
     .methodNotAllowed
 
 

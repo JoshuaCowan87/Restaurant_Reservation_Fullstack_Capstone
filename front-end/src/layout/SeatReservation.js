@@ -32,6 +32,7 @@ function SeatReservation() {
         currentTable.table_id,
         abortController.signal
       );
+      
       history.push("/dashboard");
     } catch (error) {
       setErrors(error);

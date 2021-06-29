@@ -57,11 +57,21 @@ async function reservationExists(req, res, next) {
   const reservations = await service.read(reservation_id);
   const reservation = reservations[0]
   if (reservation) {
+    res.locals.reservation = reservation;
     return next()
   }
   next({
     status: 404,
     message: `reservation ${reservation_id} not found`
+  })
+}
+
+async function statusIsOnlyBooked (req, res, next) {
+  const {status} = req.body.data;
+    if ( !status || status === "booked") return next()
+  else return next({
+    status: 400,
+    message: "status to create a reservation must be `booked`, cannot be `seated` or `finished`"
   })
 }
 
@@ -132,15 +142,45 @@ async function read (req, res) {
  
 }
 
+function statusIsValid (req, res, next) {
+  const {status} = req.body.data;
+  const validStatus = ["booked", "seated", "finished"];
+  if (validStatus.includes(status)) return next();
+  else return next({
+    status:400,
+    message: "Status must be `booked`, `seated` or `finished, cannot be `unknown`"
+  })
+}
+
+async function currentStatusIsNotFinished (req, res, next) {
+  if (res.locals.reservation.status === "finished") {
+    return next ({
+      status: 400,
+      message: "a `finished` status cannot be updated"
+    })
+  }
+  return next();
+ }
+
+async function update (req, res) {
+const {status} = req.body.data;
+const {reservation_id} = req.params;
+const data = await service.updateReservationStatus(status, reservation_id);
+res.status(200).json({data})
+}
+
+
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
     eachFieldHasInput,
+    statusIsOnlyBooked,
     timeAndDateValidation,
     reqHasValidDate,
     reqHasValidPeople,
     reqHasValidTime,
     asyncErrorBoundary(create),
   ],
-  read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)]
+  read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
+  update: [asyncErrorBoundary(reservationExists), statusIsValid, currentStatusIsNotFinished, asyncErrorBoundary(update)]
 };

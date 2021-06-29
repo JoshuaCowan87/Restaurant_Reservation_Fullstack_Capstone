@@ -54,7 +54,7 @@ function Dashboard({ date, setDate}) {
   await loadDashboard();
     } catch (error) {
       if (errors.name === "AbortError") {
-        console.log("aborted")
+ //       console.log("aborted")
       }
       setErrors(error)
     }

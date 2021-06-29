@@ -35,14 +35,14 @@ const submitHandler = async (e) => {
   const errors = FormValidation(newReservationData)
   if (errors.length > 0) {
     setFormErrors(errors)
-    console.log("Form not submitted due to form errors");
+    
   } else {
     try {
       await createReservation(newReservationData, abortController.signal);
       history.push(`/dashboard/${newReservationData.reservation_date}`);
     } catch (error) {
       if (error.name === "AbortError") {
-        console.log("Aborted");
+ //       console.log("Aborted");
       }   else {  
 setFormErrors([error.message])
       }

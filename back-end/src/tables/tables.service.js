@@ -15,18 +15,22 @@ function create(newTable) {
 }
 
 function update(reservation_id, table_id) {
+ // const updatedTable = {}
   return knex.transaction((trx) => {
     return knex("reservations")
       .transacting(trx)
       .where({ reservation_id })
       .update({ status: "seated" })
+      .returning("*")
       .then(() => {
         return knex("tables")
           .where({ table_id })
           .update({ reservation_id })
-          .then((result) => result[0]);
+         // .returning("*")
+         // .then(result => (updatedTable = result[0]))
       })
       .then(trx.commit)
+      //.then(() => updatedTable)
       .catch(trx.rollback);
   });
 }
@@ -42,7 +46,7 @@ function finishTable (reservation_id, table_id) {
         return knex("tables")
           .where({table_id})
           .update({reservation_id: null})
-          .returning("*")
+         
       })
       .then(trx.commit)
       .catch(trx.rollback)

@@ -7,7 +7,7 @@ function FormValidation (reservation) {
         "Restaurant is Closed on Tuesdays",
         "Reservations must be between 1030am and 930pm",
       ];
-console.log("form validation reservation", reservation)
+
     //reservation must be in the future
         let date = new Date(reservation.reservation_date);
         let today = new Date();
@@ -33,7 +33,7 @@ const time = reservation.reservation_time
             errors.push("Reservations must be between 1030am and 930pm");          
           }
           }
-       console.log("formValidation errors", errors)
+      
       return errors
 
 }

@@ -22,7 +22,7 @@ const searchHandler = (e) => {
     reservationByPhone(searchNumber.mobile_number, abortController.signal)
         .then(setFoundReservations)
     } catch(error) { if (error.name === "AbortError") {
-        console.log("Aborted")
+ //       console.log("Aborted")
     }
 setPhoneError(error)
     }

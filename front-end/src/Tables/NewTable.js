@@ -26,7 +26,7 @@ try {
  history.push("/dashboard")
 } catch(error) {
   if (error.name === "AbortController") {
-    console.log("Aborted")
+//    console.log("Aborted")
   } else {
   setErrors(error)
   }

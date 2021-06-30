@@ -141,7 +141,7 @@ async function update(req, res) {
   const {
     data: { reservation_id },
   } = req.body;
- await service.update(reservation_id, table_id);
+ const data = await service.update(reservation_id, table_id);
   // //  console.log("results", results)
   // //  const result = results[0]
   // //  console.log("result". result)
@@ -151,9 +151,9 @@ async function update(req, res) {
   // console.log("results", results)
   // const data = results[0];
   // // const data = result.status
-  const data = await service.read(table_id)
+  //const data = await service.read(table_id)
  // console.log("data", data)
-  res.status(200).json({ data });
+  res.json({ data });
 }
 
 async function finishTable(req, res, next) {

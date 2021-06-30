@@ -52,9 +52,7 @@ setFormErrors([error.message])
 };
 
 
-  function cancelHandler(e) {
-    history.push("/dashboard");
-  }
+  
 
   return (
     <div>
@@ -62,9 +60,9 @@ setFormErrors([error.message])
       <ReservationForm
         submitHandler={submitHandler}
         changeHandler={changeHandler}
-        cancelHandler={cancelHandler}
-        newReservationData={newReservationData}
+        reservationData={newReservationData}
         formErrors={formErrors}
+
       />
     </div>
   );

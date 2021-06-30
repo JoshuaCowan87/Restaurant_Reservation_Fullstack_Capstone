@@ -7,7 +7,7 @@ import { today } from "../utils/date-time";
 import SearchByPhone from "./SearchByPhone";
 import NewTable from "../Tables/NewTable";
 import NewReservation from "../Reservations/NewReservation";
-import Reservation from "../Reservations/Reservation";
+import EditReservation from "../Reservations/EditReservation";
 import SeatReservation from "./SeatReservation"
 
 /**
@@ -48,8 +48,8 @@ function Routes() {
         <Route path="/reservations/:reservation_id/seat" >
           <SeatReservation />
         </Route>
-        <Route>
-          <Reservation />
+        <Route path="/reservations/:reservation_id/edit">
+          <EditReservation />
         </Route>
       <Route>
         <NotFound />

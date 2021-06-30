@@ -1,9 +1,6 @@
 {
   "name": "starter-restaurant-reservation-back-end",
   "version": "1.0.0",
-  "engines": {
-    "node": "14.16.0"
-  },
   "description": "Starter code for restaurant reservation backend",
   "main": "src/server.js",
   "repository": {
@@ -32,9 +29,8 @@
   "author": "",
   "license": "UNLICENSED",
   "dependencies": {
-    "concurrently": "^5.3.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.6.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "knex": "^0.21.12",
     "nanoid": "^3.1.20",

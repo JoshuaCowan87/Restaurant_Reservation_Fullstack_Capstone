@@ -1,8 +1,9 @@
 import React from "react";
+import { useHistory } from "react-router";
 
 
-function ReservationForm({changeHandler, submitHandler, cancelHandler, reservationErrors, newReservationData}) {
-  
+function ReservationForm({changeHandler, submitHandler, reservationData}) {
+  const history = useHistory();
   return (
     <div>
       
@@ -15,7 +16,7 @@ function ReservationForm({changeHandler, submitHandler, cancelHandler, reservati
             type="text"
             name="first_name"
             onChange={changeHandler}
-            value={newReservationData.first_name}
+            value={reservationData.first_name}
             required
           />
         </div>
@@ -27,7 +28,7 @@ function ReservationForm({changeHandler, submitHandler, cancelHandler, reservati
             type="text"
             name="last_name"
             onChange={changeHandler}
-            value={newReservationData.last_name}
+            value={reservationData.last_name}
             required
           />
         </div>
@@ -40,7 +41,7 @@ function ReservationForm({changeHandler, submitHandler, cancelHandler, reservati
             type="tel"
             name="mobile_number"
             onChange={changeHandler}
-            value={newReservationData.mobile_number}
+            value={reservationData.mobile_number}
             required
           />
         </div>
@@ -53,7 +54,7 @@ function ReservationForm({changeHandler, submitHandler, cancelHandler, reservati
             type="date"
             name="reservation_date"
             onChange={changeHandler}
-            value={newReservationData.reservation_date}
+            value={reservationData.reservation_date}
             required
           />
         </div>
@@ -66,7 +67,7 @@ function ReservationForm({changeHandler, submitHandler, cancelHandler, reservati
             type="time"
             name="reservation_time"
             onChange={changeHandler}
-            value={newReservationData.reservation_time}
+            value={reservationData.reservation_time}
             required
           />
         </div>
@@ -79,16 +80,14 @@ function ReservationForm({changeHandler, submitHandler, cancelHandler, reservati
             className="form-control"
             name="people"
             onChange={changeHandler}
-            value={newReservationData.people}
+            value={reservationData.people}
             required
           />
         </div>
         <button onClick={submitHandler} type="submit">
           Submit
         </button>
-        <button onClick={cancelHandler} type="button">
-          Cancel
-        </button>
+        <button onClick={() => history.push("/dashboard")} type="button">Cancel</button>
       </form>
     </div>
   );

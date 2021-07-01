@@ -44,11 +44,20 @@ function listByPhone(mobile_number) {
       .then(result => result[0])
   }
 
+  function update (updatedData, reservation_id) {
+  return knex("reservations")
+      .where({reservation_id})
+      .update({...updatedData})
+      .returning("*")
+      .then(result => result[0])
+  }
+
 module.exports = {
   list,
   listByDate,
   listByPhone,
   create,
   read,
-  updateReservationStatus
+  updateReservationStatus,
+  update
 };

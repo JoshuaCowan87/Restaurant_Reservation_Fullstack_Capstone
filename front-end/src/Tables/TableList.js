@@ -8,7 +8,7 @@ function TableList({ tables, setTables, finishHandler }) {
     return (
       <div className="card" key={table.table_id}>
         <div data-table-id-status={table.table_id}>
-          {table.reservation_id ? "Occupied" : "Free"}
+          {table.reservation_id ? "occupied" : "free"}
 
         </div>
         <div>

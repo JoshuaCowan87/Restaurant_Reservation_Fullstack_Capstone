@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listTables, listReservations, finishTable } from "../utils/api";
+import { listTables, listReservations, finishTable, updateReservationStatus } from "../utils/api";
 import ErrorAlert from "./ErrorAlert";
 import ReservationList from "../Reservations/ReservationList";
 import { Link, useRouteMatch, useParams } from "react-router-dom";
@@ -50,6 +50,7 @@ function Dashboard({ date, setDate}) {
     try {
    if (window.confirm("Is this table ready to seat new guests? This cannot be undone.")) { 
      await finishTable(table.table_id, abortController.signal);
+     await loadDashboard();
    }
   await loadDashboard();
     } catch (error) {
@@ -60,8 +61,23 @@ function Dashboard({ date, setDate}) {
     }
    return () => abortController.abort()
 }
-  
 
+// handler to delete reservation
+const cancelHandler = async (id) => {
+  const data = {status: "cancelled"}
+    console.log("dashboard, cancel handler, data, id", data, id)
+  const abortController = new AbortController();
+  try {
+ if (window.confirm("Do you want to cancel this reservation? This cannot be undone.")) {
+    
+    await updateReservationStatus(data, id, abortController.signal)
+     await loadDashboard();
+ }  //await loadDashboard();
+} catch(error) {
+  setErrors(error)
+}
+return () => abortController.abort();
+}
   return (
     <main>
       <h1>Dashboard</h1>
@@ -74,7 +90,7 @@ function Dashboard({ date, setDate}) {
         <Link to={`/dashboard/${next(date)}`}>Next</Link>
       </div>
       <ErrorAlert error={errors} /> 
-      <ReservationList reservations={reservations} />
+      <ReservationList reservations={reservations} cancelHandler={cancelHandler}/>
       <TableList tables={tables} setTables={setTables} finishHandler={finishHandler}/> 
     </main>
   );

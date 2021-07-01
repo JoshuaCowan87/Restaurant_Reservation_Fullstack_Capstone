@@ -16,7 +16,6 @@ function SeatReservation() {
   function load() {
     const abortController = new AbortController();
     reservationById(reservation_id, abortController.signal)
-      .then((result) => result[0])
       .then(setReservation)
       .catch(setErrors);
     listTables(abortController.signal).then(setTables).catch(setErrors);
@@ -49,7 +48,6 @@ function SeatReservation() {
 
   //only list options for tables that are not currently seated
   const freeTables = tables.filter((table) => table.reservation_id === null);
-
 
   const reservationCard = (
     <div className="card" key={reservation.reservation_id}>

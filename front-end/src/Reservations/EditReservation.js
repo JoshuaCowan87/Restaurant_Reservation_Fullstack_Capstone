@@ -7,14 +7,14 @@ import FormError from "./FormError";
 
 
 function EditReservation () {
-const initialFromState = ({
-    first_name: "",
-    last_name: "",
-    mobile_number: "",
-    reservation_date: "",
-    reservation_time: "",
-    people: 0,
-})
+// const initialFromState = ({
+//     first_name: "",
+//     last_name: "",
+//     mobile_number: "",
+//     reservation_date: "",
+//     reservation_time: "",
+//     people: 0,
+// })
 const [updatedResData, setUpadtedResData] = useState({})
 const {reservation_id} = useParams();
 const [formErrors, setFormErrors] = useState([]);
@@ -23,17 +23,16 @@ const history = useHistory()
 useEffect(() => {
     const abortController = new AbortController();
  function loadCurrentRes() {
-    reservationById(reservation_id, abortController.signal)
-    .then(result => result[0])    
+    reservationById(reservation_id, abortController.signal)  
     .then(setUpadtedResData)
-        .catch(formErrors)
+    .catch(formErrors)
         }
 
 loadCurrentRes();
 }, [reservation_id]
 )
-
-
+console.log("editRes, res_id", reservation_id)
+console.log("updatesResData", updatedResData)
 const changeHandler = (e) => {
     e.preventDefault();
   setUpadtedResData({...updatedResData, [e.target.name]: e.target.value})
@@ -42,9 +41,13 @@ const changeHandler = (e) => {
 
 const submitHandler = async (e) => {
    const abortController = new AbortController();
-   updateReservation(reservation_id)
-    //.then
-    .catch(setFormErrors)
+   try {
+   await updateReservation(updatedResData, reservation_id, abortController.signal);
+   history.push("/dashboard");
+   } catch(error) {
+        setFormErrors(error)
+    }
+    return () => abortController.abort()
 }
 
 

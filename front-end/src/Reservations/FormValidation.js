@@ -10,7 +10,9 @@ function FormValidation (reservation) {
 
     //reservation must be in the future
         let date = new Date(reservation.reservation_date);
+        console.log("form validation date", date)
         let today = new Date();
+        console.log("from validation, today", today)
         if (today > date) {
           if (!errors.includes(errorMessages[0])) {
             errors.push("Reservation must be in the future");       

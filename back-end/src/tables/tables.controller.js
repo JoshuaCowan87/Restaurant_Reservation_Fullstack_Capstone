@@ -138,21 +138,8 @@ else return next()
 
 async function update(req, res) {
   const { table_id } = req.params;
-  const {
-    data: { reservation_id },
-  } = req.body;
+  const { reservation_id } = req.body.data;
  const data = await service.update(reservation_id, table_id);
-  // //  console.log("results", results)
-  // //  const result = results[0]
-  // //  console.log("result". result)
-  // // // const data = result.status
-  // // // console.log("data", data)
-  // const results = await reservationsService.read(reservation_id);
-  // console.log("results", results)
-  // const data = results[0];
-  // // const data = result.status
-  //const data = await service.read(table_id)
- // console.log("data", data)
   res.json({ data });
 }
 

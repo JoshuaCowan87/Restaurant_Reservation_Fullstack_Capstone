@@ -3,18 +3,10 @@ import {useParams, useHistory} from "react-router-dom"
 import { reservationById } from "../utils/api";
 import ReservationForm from "./ReservationForm";
 import { updateReservation } from "../utils/api";
-import FormError from "./FormError";
+import FormError from "../Errors/FormError";
 
 
 function EditReservation () {
-// const initialFromState = ({
-//     first_name: "",
-//     last_name: "",
-//     mobile_number: "",
-//     reservation_date: "",
-//     reservation_time: "",
-//     people: 0,
-// })
 const [updatedResData, setUpadtedResData] = useState({})
 const {reservation_id} = useParams();
 const [formErrors, setFormErrors] = useState([]);
@@ -31,8 +23,7 @@ useEffect(() => {
 loadCurrentRes();
 }, [reservation_id]
 )
-console.log("editRes, res_id", reservation_id)
-console.log("updatesResData", updatedResData)
+
 const changeHandler = (e) => {
     e.preventDefault();
   setUpadtedResData({...updatedResData, [e.target.name]: e.target.value})

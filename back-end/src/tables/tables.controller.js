@@ -2,6 +2,7 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const service = require("./tables.service");
 const reservationsService = require("../reservations/reservations.service");
 
+// Middleware
 validFields = ["table_name", "capacity"];
 
 function bodyHasData(req, res, next) {
@@ -25,8 +26,6 @@ function bodyHasResId(req, res, next) {
   });
 }
 
-
-
 async function tableIdExists(req, res, next) {
   const { table_id } = req.params;
   const table = await service.read(table_id);
@@ -42,9 +41,8 @@ async function tableIdExists(req, res, next) {
 
 async function resIdExists(req, res, next) {
   const { reservation_id } = req.body.data;
-//  console.log("resIdExists res_id", reservation_id)
   const reservations = await reservationsService.read(reservation_id);
-  const reservation = reservations[0]
+  const reservation = reservations[0];
   if (reservation) {
     res.locals.reservation = reservation;
     return next();
@@ -54,8 +52,6 @@ async function resIdExists(req, res, next) {
       message: `${reservation_id} does not exist`,
     });
 }
-
-
 
 function reqHasTableName(req, res, next) {
   const { table_name } = req.body.data;
@@ -115,6 +111,17 @@ function reqHasCapacity(req, res, next) {
     });
 }
 
+async function reservationIsAlreadySeated(req, res, next) {
+  if (res.locals.reservation.status === "seated") {
+    return next({
+      status: 400,
+      message: "This reservation is already seated",
+    });
+  } else return next();
+}
+
+// CRUDL
+
 async function list(req, res, next) {
   const data = await service.list();
   res.json({ data });
@@ -125,27 +132,16 @@ async function create(req, res, next) {
   const data = await service.create(newTable);
   res.status(201).json({ data });
 }
-async function reservationIsAlreadySeated (req, res, next) {
- // console.log("res.locals.res.status", res.locals.reservation, res.locals.reservation.status)
-if (res.locals.reservation.status === "seated") {
-  return next({
-    status:400,
-    message: "This reservation is already seated"
-  })
-}
-else return next()
-}
 
 async function update(req, res) {
   const { table_id } = req.params;
   const { reservation_id } = req.body.data;
- const data = await service.update(reservation_id, table_id);
+  const data = await service.update(reservation_id, table_id);
   res.json({ data });
 }
 
 async function finishTable(req, res, next) {
   const { table_id, reservation_id } = res.locals.table;
-  //console.log("res.locals.table", res.locals.table)
   const data = await service.finishTable(reservation_id, table_id);
   res.status(200).json({ data });
 }

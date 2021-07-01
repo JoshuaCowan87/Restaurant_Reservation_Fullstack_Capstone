@@ -84,7 +84,6 @@ export async function createReservation(data, signal) {
 export async function reservationByDate(date, signal) {
   const url = `${API_BASE_URL}/reservations?date=${date}`;
   return await fetchJson(url, { signal })
-    // if no reservations, dont format date
     .then(formatReservationDate)
     .then(formatReservationTime);
 }

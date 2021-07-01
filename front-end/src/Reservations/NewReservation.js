@@ -1,9 +1,8 @@
-import FormError from "./FormError";
+import FormError from "../Errors/FormError";
 import ReservationForm from "./ReservationForm";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../utils/api";
-//import FormValidation from "./FormValidation"
 
 function NewReservation() {
   const history = useHistory();
@@ -17,72 +16,29 @@ function NewReservation() {
     people: 0,
   });
 
-  
-
-
   const changeHandler = (e) => {
-   e.preventDefault();
+    e.preventDefault();
     setNewReservationData({
       ...newReservationData,
       [e.target.name]: e.target.value,
     });
   };
 
-
-// const submitHandler = async (e) => {
-//   e.preventDefault();
-//   const abortController = new AbortController();
-//   const errors = FormValidation(newReservationData)
-//   if (errors.length > 0) {
-//     setFormErrors(errors)
-    
-//   } else {
-//     try {
-//       await createReservation(newReservationData, abortController.signal);
-//       history.push(`/dashboard/${newReservationData.reservation_date}`);
-//     } catch (error) {
-//       if (error.name === "AbortError") {
-//  //       console.log("Aborted");
-//       }   else {  
-// setFormErrors([error.message])
-//       }
-//     }
-//   }
-//   return () => abortController.abort()
-// };
-
-
-  
-
-
-const submitHandler = async (e) => {
-  e.preventDefault();
-  const abortController = new AbortController();
-//  const errors = FormValidation(newReservationData)
- // if (errors.length > 0) {
- //   setFormErrors(errors)
-    
- // } else {
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const abortController = new AbortController();
     try {
       await createReservation(newReservationData, abortController.signal);
       history.push(`/dashboard/${newReservationData.reservation_date}`);
     } catch (error) {
       if (error.name === "AbortError") {
         console.log("Aborted");
-      }   else {  
-setFormErrors([error.message])
+      } else {
+        setFormErrors([error.message]);
       }
     }
- // }
-  return () => abortController.abort()
-};
-
-
-
-
-
-
-
+    return () => abortController.abort();
+  };
 
   return (
     <div>
@@ -92,7 +48,6 @@ setFormErrors([error.message])
         changeHandler={changeHandler}
         reservationData={newReservationData}
         formErrors={formErrors}
-
       />
     </div>
   );

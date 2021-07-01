@@ -1,6 +1,7 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
+// Middleware
 const validFields = [
   "first_name",
   "last_name",
@@ -10,21 +11,17 @@ const validFields = [
   "people",
 ];
 
-
 function timeAndDateValidation(req, res, next) {
   const { reservation_date, reservation_time } = req.body.data;
   const dayOfWeek = new Date(reservation_date).getUTCDay();
   const today = new Date();
-
   const resDate = new Date(reservation_date);
-
   if (dayOfWeek === 2) {
     return next({
       status: 400,
       message: "Restaurant is closed on Tuesdays",
     });
   }
-
   if (today > resDate) {
     return next({
       status: 400,
@@ -54,7 +51,6 @@ function eachFieldHasInput(req, res, next) {
     next(error);
   }
 }
-
 
 async function reservationExists(req, res, next) {
   const { reservation_id } = req.params;
@@ -132,19 +128,6 @@ async function list(req, res) {
   }
 }
 
-async function create(req, res) {
-  const { data } = req.body;
-  const newReservation = await service.create(data);
-  res.status(201).json({ data: newReservation });
-}
-
-async function read(req, res) {
-  const { reservation_id } = req.params;
-  const results = await service.read(reservation_id);
-  const data = results[0];
-  res.json({ data });
-}
-
 function statusIsValid(req, res, next) {
   const { status } = req.body.data;
   const validStatus = ["booked", "seated", "finished", "cancelled"];
@@ -167,6 +150,21 @@ async function currentStatusIsNotFinished(req, res, next) {
   return next();
 }
 
+//CRUDL
+
+async function create(req, res) {
+  const { data } = req.body;
+  const newReservation = await service.create(data);
+  res.status(201).json({ data: newReservation });
+}
+
+async function read(req, res) {
+  const { reservation_id } = req.params;
+  const results = await service.read(reservation_id);
+  const data = results[0];
+  res.json({ data });
+}
+
 async function updateReservationStatus(req, res) {
   const { status } = req.body.data;
   const { reservation_id } = req.params;
@@ -176,11 +174,10 @@ async function updateReservationStatus(req, res) {
 
 async function update(req, res, next) {
   const { reservation_id } = req.params;
-  const updatedData = {...req.body.data};
+  const updatedData = { ...req.body.data };
   const data = await service.update(updatedData, reservation_id);
   res.json({ data });
 }
-
 
 module.exports = {
   list: asyncErrorBoundary(list),
@@ -208,6 +205,6 @@ module.exports = {
     reqHasValidPeople,
     reqHasValidTime,
     currentStatusIsNotFinished,
-    update
+    update,
   ],
 };

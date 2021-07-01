@@ -1,7 +1,7 @@
 import { useHistory, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { reservationById, listTables, seatTable } from "../utils/api";
-import ErrorAlert from "./ErrorAlert";
+import ErrorAlert from "../Errors/ErrorAlert";
 
 function SeatReservation() {
   const history = useHistory();
@@ -21,7 +21,7 @@ function SeatReservation() {
     listTables(abortController.signal).then(setTables).catch(setErrors);
     return () => abortController.signal;
   }
-  
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const abortController = new AbortController();
@@ -31,7 +31,7 @@ function SeatReservation() {
         currentTable.table_id,
         abortController.signal
       );
-      
+
       history.push("/dashboard");
     } catch (error) {
       setErrors(error);
@@ -44,7 +44,7 @@ function SeatReservation() {
       ...currentTable,
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
   //only list options for tables that are not currently seated
   const freeTables = tables.filter((table) => table.reservation_id === null);
@@ -65,10 +65,6 @@ function SeatReservation() {
     </div>
   );
 
- 
-
-  
-
   return (
     <div>
       <div>Seat Reservation</div>
@@ -78,7 +74,7 @@ function SeatReservation() {
         <form>
           <h3>Select a table</h3>
           <select name="table_id" onChange={changeHandler}>
-        <option>Select Table</option>
+            <option>Select Table</option>
             {freeTables.map((table) => (
               <option
                 key={table.table_id}

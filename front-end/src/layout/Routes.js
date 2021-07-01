@@ -2,26 +2,22 @@ import React, {useState} from "react";
 
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "./Dashboard";
-import NotFound from "./NotFound";
+import NotFound from "../Errors/NotFound";
 import { today } from "../utils/date-time";
 import SearchByPhone from "./SearchByPhone";
 import NewTable from "../Tables/NewTable";
 import NewReservation from "../Reservations/NewReservation";
 import EditReservation from "../Reservations/EditReservation";
-import SeatReservation from "./SeatReservation"
+import SeatReservation from "../Reservations/SeatReservation"
 
 /**
  * Defines all the routes for the application.
- *
- * You will need to make changes to this file.
  *
  * @returns {JSX.Element}
  */
 function Routes() {
   const [date, setDate] = useState(today());
   
-
-
   return (
     <Switch>
       <Route exact path="/">

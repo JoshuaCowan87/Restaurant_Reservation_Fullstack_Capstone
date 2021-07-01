@@ -1,10 +1,8 @@
-//const { default: knex } = require("knex")
 const knex = require("../db/connection");
 
 function list() {
   return knex("reservations").select("*").whereNot({status: "finished"});
 }
-
 
 function listByDate(reservation_date) {
   return knex("reservations")

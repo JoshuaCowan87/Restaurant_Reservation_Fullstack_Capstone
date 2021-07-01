@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-//import { deleteReservation } from "../utils/api";
+
 
 function ReservationList({ reservations, cancelHandler }) {
   const list = reservations.map((reservation) => {
+      const {reservation_id} = reservation
     if (reservation.status === "finished" || reservation.status === "cancelled")
       return null;
     return (

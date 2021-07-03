@@ -1,11 +1,11 @@
 import React from "react";
 
-function TableList({ tables, setTables, finishHandler }) {
+function TableList({ tables, finishHandler }) {
   const tableList = tables.map((table) => {
     return (
-      <div className="row">
-     <div className="col-sm-6" key={table.table_id}>
-      <div className="card text-white bg-secondary mb-3">
+     
+     <div className="col-lg-4 col-xl-3 m-3 card table-card-title text-white bg-secondary" key={table.table_id} >
+   
       <h5 className="table-card-title">Table: {table.table_name}</h5>
         <div>
         <h5 data-table-id-status={table.table_id}> Status:
@@ -25,14 +25,15 @@ function TableList({ tables, setTables, finishHandler }) {
           </div>
         ) : null}
         </div>
-      </div>
-      </div>
+    
+      
     );
   });
 
   return (
-    <div>
-      <div>{tableList}</div>
+    
+       <div className="row" >
+    {tableList}
     </div>
   );
 }

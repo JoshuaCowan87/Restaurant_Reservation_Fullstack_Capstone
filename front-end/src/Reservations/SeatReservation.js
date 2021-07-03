@@ -68,7 +68,7 @@ function SeatReservation() {
   return (
     <div>
       <div>Seat Reservation</div>
-      <ErrorAlert error={errors} />
+     {errors && <ErrorAlert error={errors} />}
       <div>{reservationCard}</div>
       <div>
         <form>

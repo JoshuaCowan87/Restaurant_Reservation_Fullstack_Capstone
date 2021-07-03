@@ -3,26 +3,36 @@ import {useParams, useHistory} from "react-router-dom"
 import { reservationById } from "../utils/api";
 import ReservationForm from "./ReservationForm";
 import { updateReservation } from "../utils/api";
-import FormError from "../Errors/FormError";
+import ErrorAlert from "../Errors/ErrorAlert";
+
 
 
 function EditReservation () {
-const [updatedResData, setUpadtedResData] = useState({})
+const initialFormState = {
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
+    reservation_date: "",
+    reservation_time: "",
+    people: ""
+  }
+const [updatedResData, setUpadtedResData] = useState(initialFormState)
 const {reservation_id} = useParams();
-const [formErrors, setFormErrors] = useState([]);
+const [formErrors, setFormErrors] = useState(null);
 const history = useHistory()
 
-useEffect(() => {
-    const abortController = new AbortController();
+useEffect(loadCurrentRes, [reservation_id])
+    
  function loadCurrentRes() {
+    const abortController = new AbortController();
+    setFormErrors(null)
     reservationById(reservation_id, abortController.signal)  
     .then(setUpadtedResData)
-    .catch(formErrors)
+    .catch(setFormErrors);
+ return () => abortController.abort()
         }
 
-loadCurrentRes();
-}, [reservation_id]
-)
+
 
 const changeHandler = (e) => {
     e.preventDefault();
@@ -31,12 +41,14 @@ const changeHandler = (e) => {
 
 
 const submitHandler = async (e) => {
+    e.preventDefault();
    const abortController = new AbortController();
    try {
-   await updateReservation(updatedResData, reservation_id, abortController.signal);
-   history.push("/dashboard");
+   const reservation = await updateReservation(updatedResData, reservation_id, abortController.signal);
+   const updatedDate = reservation.reservation_date.match(/\d{4}-\d{2}-\d{2}/)[0];
+   history.push(`/dashboard?date=${updatedDate}`);
    } catch(error) {
-        setFormErrors(error)
+         setFormErrors(error)
     }
     return () => abortController.abort()
 }
@@ -44,7 +56,7 @@ const submitHandler = async (e) => {
 
     return (
         <div>
-        <FormError formErrors={formErrors} />
+        <ErrorAlert error={formErrors} />
         <ReservationForm 
         changeHandler={changeHandler}
         submitHandler={submitHandler}

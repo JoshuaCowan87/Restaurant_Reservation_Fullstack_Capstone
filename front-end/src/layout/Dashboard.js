@@ -7,9 +7,10 @@ import {
 } from "../utils/api";
 import ErrorAlert from "../Errors/ErrorAlert";
 import ReservationList from "../Reservations/ReservationList";
-import { Link, useRouteMatch, useParams } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import { previous, next, today } from "../utils/date-time";
 import TableList from "../Tables/TableList";
+import useQuery from "../utils/useQuery";
 
 /**
  * Defines the dashboard page.
@@ -22,17 +23,16 @@ function Dashboard({ date, setDate }) {
   const [errors, setErrors] = useState(null);
   const [tables, setTables] = useState([]);
 
-  // set date based of url parameters
-  const { url } = useRouteMatch();
-  const params = useParams();
-  const newDate = params.date;
-  useEffect(loadDate, [url, date, setDate, newDate]);
+  // set date based of url query
+  const  url  = useRouteMatch();
+  const query = useQuery()
+  useEffect(loadDate, [url, query, setDate]);
+  
   function loadDate() {
-    if (newDate) setDate(newDate);
-    else setDate(today());
+    const newDate = query.get("date");
+    if (newDate) setDate(newDate)
   }
 
-  // useEffect hook to load Dashboard
   useEffect(loadDashboard, [date, url]);
 
   function loadDashboard() {
@@ -70,7 +70,6 @@ function Dashboard({ date, setDate }) {
   // handler to delete reservation
   const cancelHandler = async (id) => {
     const data = { status: "cancelled" };
-    console.log("dashboard, cancel handler, data, id", data, id);
     const abortController = new AbortController();
     try {
       if (
@@ -94,9 +93,9 @@ function Dashboard({ date, setDate }) {
         <h4 className="mb-0">Reservations for {date}</h4>
       </div>
       <div>
-        <Link to={`/dashboard/${previous(date)}`} className="btn btn-primary">Previous</Link>{" "}
-        <Link to={`/dashboard/`} className="btn btn-primary">Today</Link>{" "}
-        <Link to={`/dashboard/${next(date)}`} className="btn btn-primary">Next</Link>
+        <Link to={`/dashboard?date=${previous(date)}`} className="btn btn-primary m-1">Previous</Link>{" "}
+        <Link to={`/dashboard?date=${today()}`} className="btn btn-primary m-1">Today</Link>{" "}
+        <Link to={`/dashboard?date=${next(date)}`} className="btn btn-primary m-1">Next</Link>
       </div>
       <br />
       <ErrorAlert error={errors} />

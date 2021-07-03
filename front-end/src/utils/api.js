@@ -30,17 +30,12 @@ headers.append("Content-Type", "application/json");
  *  If the response is not in the 200 - 399 range the promise is rejected.
  */
 async function fetchJson(url, options, onCancel) {
-  // console.log("api fetchjson 1")
   try {
     const response = await fetch(url, options);
-    //   console.log("api fetchjson response", response)
     if (response.status === 204) {
-      //    console.log("api fetchjson 204")
       return null;
     }
-
     const payload = await response.json();
-    //   console.log("api fetchjson payload", payload)
     if (payload.error) {
       return Promise.reject({ message: payload.error });
     }
@@ -53,12 +48,7 @@ async function fetchJson(url, options, onCancel) {
   }
 }
 
-/**
- * Retrieves all existing reservation.
- * @returns {Promise<[reservation]>}
- *  a promise that resolves to a possibly empty array of reservation saved in the database.
- */
-
+// reservations API
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
   Object.entries(params).forEach(([key, value]) =>
@@ -68,6 +58,28 @@ export async function listReservations(params, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+export async function reservationByPhone(mobile_number, signal) {
+  const url = `${API_BASE_URL}/reservations?mobile_number=${mobile_number}`;
+  return await fetchJson(url, { signal })
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+export async function reservationById(reservation_id, signal) {
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
+  return await fetchJson(url, { signal })
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+export async function reservationByDate(date, signal) {
+  const url = `${API_BASE_URL}/reservations?date=${date}`;
+  return await fetchJson(url, { signal })
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
 
 export async function createReservation(data, signal) {
   const url = `${API_BASE_URL}/reservations`;
@@ -81,12 +93,44 @@ export async function createReservation(data, signal) {
   return await fetchJson(url, options);
 }
 
-export async function reservationByDate(date, signal) {
-  const url = `${API_BASE_URL}/reservations?date=${date}`;
-  return await fetchJson(url, { signal })
-    .then(formatReservationDate)
-    .then(formatReservationTime);
+export async function updateReservation(data, reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
+  console.log("api data.people", data.people, typeof data.people)
+  data.people = Number(data.people)
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data}),
+    signal,
+  };
+  return await fetchJson(url, options);
 }
+
+export async function updateReservationStatus(data, reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data }),
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+
+
+export async function deleteReservation(reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservation/${reservation_id}/status`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { status: "cancelled" } }),
+    signal,
+  };
+  return await fetchJson(url, options);
+}
+
+// tables API
 
 export async function createTable(data, signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
@@ -103,21 +147,6 @@ export async function createTable(data, signal) {
 export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables`);
   return await fetchJson(url, { headers, signal }, []);
-}
-
-export async function reservationByPhone(mobile_number, signal) {
-  const url = `${API_BASE_URL}/reservations?mobile_number=${mobile_number}`;
-  return await fetchJson(url, { signal })
-    .then(formatReservationDate)
-    .then(formatReservationTime);
-}
-
-export async function reservationById(reservation_id, signal) {
-  console.log("api resById")
-  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}`);
-  return await fetchJson(url, { signal })
-    .then(formatReservationDate)
-    .then(formatReservationTime);
 }
 
 export async function seatTable(reservation_id, table_id, signal) {
@@ -142,36 +171,4 @@ export async function finishTable(table_id, signal) {
   return await fetchJson(url, options);
 }
 
-export async function updateReservationStatus(data, reservation_id, signal) {
-  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
-  const options = {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({ data }),
-    signal,
-  };
-  return await fetchJson(url, options);
-}
 
-export async function updateReservation(data, reservation_id, signal) {
-  console.log("updatedData", data)
-  const url = `${API_BASE_URL}/reservations/${reservation_id}`;
-  const options = {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({ data}),
-    signal,
-  };
-  return await fetchJson(url, options);
-}
-
-export async function deleteReservation(reservation_id, signal) {
-  const url = `${API_BASE_URL}/reservation/${reservation_id}/status`;
-  const options = {
-    method: "PUT",
-    headers,
-    body: JSON.stringify({ data: { status: "cancelled" } }),
-    signal,
-  };
-  return await fetchJson(url, options);
-}

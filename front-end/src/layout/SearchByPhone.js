@@ -25,14 +25,13 @@ function SearchByPhone() {
       ).then(setFoundReservations);
     } catch (error) {
       if (error.name === "AbortError") {
-        console.log("Aborted");
+        console.log("Aborted")
       }
       setPhoneError(error);
     }
     return () => abortController.abort();
   };
 
-  
   return (
     <div>
       <div>

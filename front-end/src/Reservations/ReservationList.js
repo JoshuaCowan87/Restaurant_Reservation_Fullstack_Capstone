@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 
 function ReservationList({ reservations, cancelHandler }) {
   const list = reservations.map((reservation) => {
-      const {reservation_id} = reservation
     if (reservation.status === "finished" || reservation.status === "cancelled")
       return null;
     return (
-        <div className="row">
-      <div className="col-sm-6" key={reservation.reservation_id}>
-        <div className="card text-white bg-dark mb-3">
+        
+      <div className="col-lg-4 col-xl-3 bg-dark m-3 card text-white" key={reservation.reservation_id} >
           <h3>Date: {reservation.reservation_date}</h3>
           <h4>
             Name: {reservation.last_name}, {reservation.first_name}
@@ -48,10 +46,10 @@ function ReservationList({ reservations, cancelHandler }) {
             >
               Cancel
             </button>
-          </div>
+       
         </div>
       </div>
-      </div>
+     
     );
   });
 
@@ -65,10 +63,12 @@ function ReservationList({ reservations, cancelHandler }) {
     );
   }
   return (
-    <div>
+   
+      <div className="row"  >
       {list}
       <br />
-    </div>
+      </div>
+  
   );
 }
 

@@ -25,7 +25,8 @@ function listByPhone(mobile_number) {
         "translate(mobile_number, '() -', '') like ?",
         `%${mobile_number.replace(/\D/g, "")}%`
       )
-      .orderBy("reservation_date");
+      .returning("*")
+      .orderBy("reservation_date")
   }
 
   function read(reservation_id) {
@@ -42,10 +43,10 @@ function listByPhone(mobile_number) {
       .then(result => result[0])
   }
 
-  function update (updatedData, reservation_id) {
+  function update (updatedReservation, reservation_id) {
   return knex("reservations")
       .where({reservation_id})
-      .update({...updatedData})
+      .update({...updatedReservation})
       .returning("*")
       .then(result => result[0])
   }

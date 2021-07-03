@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import NotFound from "../Errors/NotFound";
@@ -17,7 +16,16 @@ import SeatReservation from "../Reservations/SeatReservation"
  */
 function Routes() {
   const [date, setDate] = useState(today());
-  
+//   const url = useRouteMatch();
+//   const query = useQuery()
+
+// useEffect(loadDate, [url, query])
+
+// function loadDate() {
+//   const newDate = query.get("date");
+//   if (newDate) setDate(newDate)
+// }
+
   return (
     <Switch>
       <Route exact path="/">
@@ -26,9 +34,9 @@ function Routes() {
       <Route exact path="/reservations">
         <Redirect to={"/dashboard/"} />
            </Route>           
-      <Route path="/dashboard/:date">
+      {/* <Route path="/dashboard/:date">
         <Dashboard date={date} setDate={setDate}  />
-      </Route>
+      </Route> */}
       <Route path ="/dashboard/">
         <Dashboard date={date} setDate={setDate} />
       </Route>

@@ -29,7 +29,7 @@ function NewReservation() {
     const abortController = new AbortController();
     try {
       await createReservation(newReservationData, abortController.signal);
-      history.push(`/dashboard/${newReservationData.reservation_date}`);
+      history.push(`/dashboard?date=${newReservationData.reservation_date}`);
     } catch (error) {
       if (error.name === "AbortError") {
         console.log("Aborted");

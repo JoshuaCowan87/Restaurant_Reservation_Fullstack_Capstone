@@ -41,14 +41,19 @@ function NewReservation() {
   };
 
   return (
-    <div>
-      <FormError formErrors={formErrors} />
-      <ReservationForm
-        submitHandler={submitHandler}
-        changeHandler={changeHandler}
-        reservationData={newReservationData}
-        formErrors={formErrors}
-      />
+    <div className="new-res-body">
+      <div className="new-res-header">
+        <h2 className="new-res-title">Create New Reservation</h2>
+      </div>
+      <div>
+        <FormError formErrors={formErrors} />
+        <ReservationForm
+          submitHandler={submitHandler}
+          changeHandler={changeHandler}
+          reservationData={newReservationData}
+          formErrors={formErrors}
+        />
+      </div>
     </div>
   );
 }

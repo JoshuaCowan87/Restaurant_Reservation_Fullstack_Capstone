@@ -1,0 +1,118 @@
+/* html {
+  background-image: url(https://secure.img1-fg.wfcdn.com/im/33593386/resize-h445%5Ecompr-r85/9445/94453186/Barnwood+Collection+6%2522+x+64%2522+Reclaimed+Engineered+Wood+Wall+Paneling.jpg);
+  height: 100vh;
+} */
+
+.side-bar {
+  height: 100vh;
+}
+
+/* ----- Dashboard ----- */
+
+.side-bar {
+  background-color: #393a44;
+  min-width: 200px;
+  margin-right: 0px;
+}
+
+.dashboard-header, .seat-res-header {
+  background-color: rgb(211, 211, 211);
+  text-align: center;
+}
+
+.dashboard-main {
+  background-image: url(https://secure.img1-fg.wfcdn.com/im/33593386/resize-h445%5Ecompr-r85/9445/94453186/Barnwood+Collection+6%2522+x+64%2522+Reclaimed+Engineered+Wood+Wall+Paneling.jpg);
+  height: 100vh;
+}
+
+.layout-main {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.res-card-container {
+  padding-left: 10px;
+}
+
+/* ----- Reservations -----*/
+
+.reservation-header {
+  background-color: black;
+  color: white;
+}
+.reservation-card {
+  background-color: rgb(129, 115, 115);
+  border-style: solid;
+  border-width: 4px;
+  border-color: maroon;
+  border-radius: 25px;
+}
+.reservation-card:hover {
+  transform: scale(1.2);
+  border-color: green;
+}
+
+.res-card-link {
+  margin-bottom: 10px;
+}
+
+/* ----- Tables ----- */
+
+.table-card {
+  background-color: rgb(129, 115, 115);
+  border-width: 4px;
+  border-color: maroon;
+  border-radius: 25px;
+}
+
+.table-card:hover {
+  transform: scale(1.2);
+  border-color: green;
+}
+
+.table-header {
+  background-color: black;
+  color: white;
+}
+
+/* ----- Search ----- */
+
+.search-header {
+  background-color: rgb(211, 211, 211);
+  padding: 10px;
+}
+
+.search-main {
+  background-image: url(https://secure.img1-fg.wfcdn.com/im/33593386/resize-h445%5Ecompr-r85/9445/94453186/Barnwood+Collection+6%2522+x+64%2522+Reclaimed+Engineered+Wood+Wall+Paneling.jpg);
+  height: 100vh;
+}
+
+.search-res-list {
+  background-color: black;
+  color: white;
+}
+
+/* ----- New Reservation And New Table ----- */
+.new-res-header {
+  background-color: rgb(211, 211, 211);
+  padding: 10px;
+}
+.new-res-title {
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.new-res-body {
+  background-image: url(https://secure.img1-fg.wfcdn.com/im/33593386/resize-h445%5Ecompr-r85/9445/94453186/Barnwood+Collection+6%2522+x+64%2522+Reclaimed+Engineered+Wood+Wall+Paneling.jpg);
+  height: 100vh;
+}
+
+.form-label {
+  font-weight: 900;
+  font-size: 15px;
+}
+
+/* ----- Seat Reservation ----- */
+.seat-res-header {
+  padding-bottom: 15px;
+}

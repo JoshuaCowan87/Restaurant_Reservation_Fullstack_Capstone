@@ -9,7 +9,7 @@ function ReservationForm({changeHandler, submitHandler, reservationData}) {
       
       <form>
         <div>
-          <label htmlFor="first_name">First Name</label>
+          <label htmlFor="first_name" className="form-label">First Name</label>
           <input
             id="first_name"
             className="form-control"
@@ -21,7 +21,7 @@ function ReservationForm({changeHandler, submitHandler, reservationData}) {
           />
         </div>
         <div>
-          <label htmlFor="last_name">Last Name</label>
+          <label htmlFor="last_name" className="form-label">Last Name</label>
           <input
             id="last_name"
             className="form-control"
@@ -34,7 +34,7 @@ function ReservationForm({changeHandler, submitHandler, reservationData}) {
         </div>
 
         <div>
-          <label htmlFor="mobile_number">Mobile Number</label>
+          <label htmlFor="mobile_number" className="form-label">Mobile Number</label>
           <input
             id="mobileNumber"
             className="form-control"
@@ -47,7 +47,7 @@ function ReservationForm({changeHandler, submitHandler, reservationData}) {
         </div>
 
         <div>
-          <label htmlFor="reservation_date">Date of Reservation</label>
+          <label htmlFor="reservation_date"className="form-label" >Date of Reservation</label>
           <input
             id="date"
             className="form-control"
@@ -60,7 +60,7 @@ function ReservationForm({changeHandler, submitHandler, reservationData}) {
         </div>
 
         <div>
-          <label htmlFor="reservation_time">Time of Reservation</label>
+          <label htmlFor="reservation_time" className="form-label">Time of Reservation</label>
           <input
             id="time"
             className="form-control"
@@ -73,7 +73,7 @@ function ReservationForm({changeHandler, submitHandler, reservationData}) {
         </div>
 
         <div>
-          <label htmlFor="people">Number of People in Party</label>
+          <label htmlFor="people" className="form-label">Number of People in Party</label>
           <input
             id="people"
             type="number"
@@ -84,10 +84,10 @@ function ReservationForm({changeHandler, submitHandler, reservationData}) {
             required
           />
         </div>
-        <button onClick={submitHandler} type="submit">
+        <button onClick={submitHandler} type="submit" className="btn-primary m-1">
           Submit
         </button>
-        <button onClick={() => history.push("/dashboard")} type="button">Cancel</button>
+        <button onClick={() => history.push("/dashboard")} type="button" style={{margin:"10px"}} >Cancel</button>
       </form>
     </div>
   );

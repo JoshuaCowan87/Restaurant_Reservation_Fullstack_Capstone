@@ -3,3 +3,7 @@
   min-width: 200px;
 }
 
+.dashboard-header {
+  background-color: rgb(211, 211, 211);
+  text-align: center;
+}

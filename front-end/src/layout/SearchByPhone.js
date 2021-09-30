@@ -33,13 +33,13 @@ function SearchByPhone() {
   };
 
   return (
-    <div>
-      <div>
-        <h2> Search</h2>
-      </div>
+    <div className="search-main">
+      <div className="search-header">
+        <h2 style={{textAlign:"center"}}> Search</h2>
+      
       <div>
         <form>
-          <label>Search for reservation by phone number</label>
+          <label>Search by phone number</label>
           <input
             id="searchNumber"
             name="mobile_number"
@@ -53,11 +53,13 @@ function SearchByPhone() {
         </form>
       </div>
       <div>
-        <button onClick={searchHandler} type="submit">
+        <button onClick={searchHandler} type="submit" style={{marginBottom: "10px"}} className="btn-primary m-1">
           Find
         </button>
       </div>
-      <div>
+      </div>
+      <div className="search-body">
+      
         <ErrorAlert error={phoneError} />
         <ReservationList reservations={foundReservations} />
       </div>

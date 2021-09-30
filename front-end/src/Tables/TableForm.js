@@ -7,8 +7,9 @@ function TableForm ({cancelHandler, changeHandler, submitHandler, newTableData})
         <div>
              <form>
         <div>
-          <label>Table Name</label>
+          <label className="form-label">Table Name</label>
           <input
+          className="form-control"
             id="table_name"
             type="text"
             name="table_name"
@@ -18,8 +19,9 @@ function TableForm ({cancelHandler, changeHandler, submitHandler, newTableData})
           />
         </div>
         <div>
-            <label>Capacity</label>
+            <label className="form-label">Capacity</label>
             <input 
+            className="form-control form-label"
             id="capacity"
             type="number"
             name="capacity"
@@ -28,8 +30,8 @@ function TableForm ({cancelHandler, changeHandler, submitHandler, newTableData})
             required/>
         </div>
       </form>
-      <button onClick={submitHandler} type="submit">Submit</button>
-      <button onClick={cancelHandler} type="button">Cancel</button>
+      <button onClick={submitHandler} type="submit" className="btn-primary m-1">Submit</button>
+      <button onClick={cancelHandler} type="button" style={{margin:"10px"}}>Cancel</button>
         </div>
     )
 }

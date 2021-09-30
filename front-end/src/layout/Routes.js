@@ -16,15 +16,7 @@ import SeatReservation from "../Reservations/SeatReservation"
  */
 function Routes() {
   const [date, setDate] = useState(today());
-//   const url = useRouteMatch();
-//   const query = useQuery()
 
-// useEffect(loadDate, [url, query])
-
-// function loadDate() {
-//   const newDate = query.get("date");
-//   if (newDate) setDate(newDate)
-// }
 
   return (
     <Switch>
@@ -34,9 +26,6 @@ function Routes() {
       <Route exact path="/reservations">
         <Redirect to={"/dashboard/"} />
            </Route>           
-      {/* <Route path="/dashboard/:date">
-        <Dashboard date={date} setDate={setDate}  />
-      </Route> */}
       <Route path ="/dashboard/">
         <Dashboard date={date} setDate={setDate} />
       </Route>

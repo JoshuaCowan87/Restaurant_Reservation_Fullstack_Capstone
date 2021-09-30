@@ -24,13 +24,13 @@ function Dashboard({ date, setDate }) {
   const [tables, setTables] = useState([]);
 
   // set date based of url query
-  const  url  = useRouteMatch();
-  const query = useQuery()
+  const url = useRouteMatch();
+  const query = useQuery();
   useEffect(loadDate, [url, query, setDate]);
-  
+
   function loadDate() {
     const newDate = query.get("date");
-    if (newDate) setDate(newDate)
+    if (newDate) setDate(newDate);
   }
 
   useEffect(loadDashboard, [date, url]);
@@ -87,28 +87,46 @@ function Dashboard({ date, setDate }) {
   };
 
   return (
-    <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
+    <main className="dashboard-main">
+      <div className="dashboard-header">
+        <h1>Reservations</h1>
+        <h4>Reservations for {date}</h4>
+        <div>
+          <Link
+            to={`/dashboard?date=${previous(date)}`}
+            className="btn btn-primary m-1"
+          >
+            Previous
+          </Link>{" "}
+          <Link
+            to={`/dashboard?date=${today()}`}
+            className="btn btn-primary m-1"
+          >
+            Today
+          </Link>{" "}
+          <Link
+            to={`/dashboard?date=${next(date)}`}
+            className="btn btn-primary m-1"
+          >
+            Next
+          </Link>
+        </div>
+        <br />
       </div>
-      <div>
-        <Link to={`/dashboard?date=${previous(date)}`} className="btn btn-primary m-1">Previous</Link>{" "}
-        <Link to={`/dashboard?date=${today()}`} className="btn btn-primary m-1">Today</Link>{" "}
-        <Link to={`/dashboard?date=${next(date)}`} className="btn btn-primary m-1">Next</Link>
-      </div>
-      <br />
       <ErrorAlert error={errors} />
+      <div className="dashboard-body">
+       <h3 className="mb-0 res-card-container reservation-header">Reservations:</h3> 
       <ReservationList
         reservations={reservations}
         cancelHandler={cancelHandler}
       />
-      <h3 className="mb-0">Tables:</h3>
+      <h3 className="mb-0 res-card-container table-header">Tables:</h3>
       <TableList
         tables={tables}
         setTables={setTables}
         finishHandler={finishHandler}
       />
+      </div>
     </main>
   );
 }

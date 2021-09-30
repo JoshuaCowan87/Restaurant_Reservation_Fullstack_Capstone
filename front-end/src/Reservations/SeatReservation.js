@@ -50,29 +50,31 @@ function SeatReservation() {
   const freeTables = tables.filter((table) => table.reservation_id === null);
 
   const reservationCard = (
-    <div className="card" key={reservation.reservation_id}>
-      <div className="card-header">
-        <h2>{reservation.reservation_date}</h2>
-        <h2>
-          {reservation.last_name} {reservation.first_name}
-        </h2>
-        <h2>{reservation.reservation_time}</h2>
-      </div>
-      <div className="card-body">
-        <p>{reservation.mobile_number}</p>
-        <p>{reservation.people}</p>
+    <div key={reservation.reservation_id}>
+      <div className="col-lg-4 col-xl-3 m-3 reservation-card text-black">
+        <h3>{reservation.reservation_date}</h3>
+        <h4>
+          Name: {reservation.last_name} {reservation.first_name}
+        </h4>
+        <h5>Time: {reservation.reservation_time}</h5>
+      
+     
+        <h5>Phone Number: {reservation.mobile_number}</h5>
+        <h5>Size: {reservation.people}</h5>
       </div>
     </div>
   );
 
   return (
-    <div>
-      <div>Seat Reservation</div>
+    <div className="new-res-body">
+      <div className="seat-res-header">
+      <h2 >Seat Reservation</h2>
+      </div>
      {errors && <ErrorAlert error={errors} />}
       <div>{reservationCard}</div>
       <div>
         <form>
-          <h3>Select a table</h3>
+          <h3 className="search-res-list">Select a table</h3>
           <select name="table_id" onChange={changeHandler}>
             <option>Select Table</option>
             {freeTables.map((table) => (
@@ -87,10 +89,11 @@ function SeatReservation() {
           </select>
         </form>
       </div>
-      <button onClick={() => history.goBack()}>Cancel</button>
-      <button onClick={submitHandler} type="submit">
+      <button onClick={submitHandler} type="submit" className="btn-primary m-1">
         Seat
       </button>
+      <button onClick={() => history.goBack()}>Cancel</button>
+      
     </div>
   );
 }

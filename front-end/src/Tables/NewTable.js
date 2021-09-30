@@ -37,16 +37,20 @@ function NewTable() {
     history.goBack();
   };
 
-
   return (
-    <div>
-      <ErrorAlert error={errors} />
-      <TableForm
-        changeHandler={changeHandler}
-        newTableData={newTableData}
-        submitHandler={submitHandler}
-        cancelHandler={cancelHandler}
-      />
+    <div className="new-res-body">
+      <div className="new-res-header">
+        <h2 className="new-res-title">Create New Table</h2>
+      </div>
+      <div>
+        <ErrorAlert error={errors} />
+        <TableForm
+          changeHandler={changeHandler}
+          newTableData={newTableData}
+          submitHandler={submitHandler}
+          cancelHandler={cancelHandler}
+        />
+      </div>
     </div>
   );
 }

@@ -110,6 +110,7 @@ function Dashboard({ date, setDate }) {
           >
             Next
           </Link>
+          <h2>{process.env.NODE_ENV}</h2>
         </div>
         <br />
       </div>

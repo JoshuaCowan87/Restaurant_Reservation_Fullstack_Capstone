@@ -111,7 +111,6 @@ function Dashboard({ date, setDate }) {
             Next
           </Link>
           <h2>{process.env.NODE_ENV}</h2>
-          <h2>{process.env.REACT_APP_API_BASE_URL}</h2>
         </div>
         <br />
       </div>

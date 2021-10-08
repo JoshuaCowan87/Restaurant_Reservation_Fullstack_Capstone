@@ -3,7 +3,7 @@ The Restaurant Reservation Fullstack App is the application I made for my final 
 Thinkful provided a series of user stories to offer insight into what the app user wants, providing the framework of what to build. Comprehensive tests were also provided to allow for TDD. The original instructions and user stories can be found here, https://github.com/Thinkful-Ed/starter-restaurant-reservation
 
 ## Deployment
-Frontend: https://res-fe.herokuapp.com/dashboard/ 
+Frontend: https://res-front-end.herokuapp.com/
 <br />
 Backend: https://res-be.herokuapp.com/
 

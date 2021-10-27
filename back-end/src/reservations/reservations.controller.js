@@ -154,7 +154,9 @@ async function list(req, res) {
 
 async function create(req, res) {
   const { data } = req.body;
+  console.log(data);
   const newReservation = await service.create(data);
+  console.log("new", newReservation);
   res.status(201).json({ data: newReservation });
 }
 
